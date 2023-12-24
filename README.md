@@ -22,7 +22,7 @@
 これは、そんな攻略とプログラミングを楽しむゲームです。  
 さあ、**あなただけの最高に賢い勇者パーティ**を作ってみてください👍
 
-このゲームはPythonで実装されており、CLI (Comand Line Interface) で動作します。  
+このゲームはPythonで実装されており、CLI (Command Line Interface) で動作します。  
 つまり、**プレイヤーによるプログラミングはPythonでおこないます。**
 
 ## Philosophy
