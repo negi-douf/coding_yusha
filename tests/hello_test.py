@@ -1,5 +1,5 @@
-from src.hello import hello
-from src.hello import calc
+from coding_yusha.hello import hello
+from coding_yusha.hello import calc
 
 def test_hello():
     assert hello() == "Hello, world!"
