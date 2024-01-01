@@ -39,6 +39,11 @@
 
 ## Usage
 
+### 単体テスト
+```sh
+$ pytest
+```
+
 ### フォーマット
 ```sh
 $ autopep8 --in-place --aggressive --recursive coding_yusha/
