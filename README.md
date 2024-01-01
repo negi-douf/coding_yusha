@@ -36,3 +36,11 @@
   プレイヤーはすでに基本の構文・記述方法を修得しているものとする。
 - シナリオを重視しない
 - グラフィックを重視しない
+
+## Usage
+
+### フォーマット
+```sh
+$ autopep8 --in-place --aggressive --recursive coding_yusha/
+```
+
