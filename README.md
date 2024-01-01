@@ -58,3 +58,20 @@ $ poetry run flake8
 ```sh
 $ poetry run isort .
 ```
+
+## Tips
+
+### Gitフックの設定
+Gitフックを設定することでコミット前にコードベースの検証ができる。
+そのために、まずpre-commit実行ファイルを作成する。
+```sh
+$ touch .git/hooks/pre-commit
+$ chmod +x .git/hooks/pre-commit
+```
+作成した実行ファイルに下記の内容を書き込んで保存。
+この設定によって`poetry run pytest && poetry run flake8`がコミット時に実行され、コマンドが成功したらコミット出来るようになる。
+```sh
+#!/bin/sh
+
+poetry run pytest && poetry run flake8
+```
