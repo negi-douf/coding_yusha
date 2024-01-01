@@ -49,3 +49,7 @@ $ pytest
 $ autopep8 --in-place --aggressive --recursive coding_yusha/
 ```
 
+### lint
+```sh
+$ flake8
+```
