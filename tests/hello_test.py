@@ -1,5 +1,4 @@
-from coding_yusha.hello import hello
-from coding_yusha.hello import calc
+from coding_yusha.hello import calc, hello
 
 
 def test_hello():
