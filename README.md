@@ -41,17 +41,17 @@
 
 ### 単体テスト
 ```sh
-$ pytest
+$ poetry run pytest
 ```
 
 ### フォーマット
 ```sh
-$ autopep8 --in-place --aggressive --recursive coding_yusha/
+$ poetry run autopep8 --in-place --aggressive --recursive coding_yusha/
 ```
 
 ### lint
 ```sh
-$ flake8
+$ poetry run flake8
 ```
 
 ### インポート文のソート
