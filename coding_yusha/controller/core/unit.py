@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Unit(ABC):
+    name: str  # 名前。戦闘の中でユニークである必要がある
     max_hp: int  # 最大HP
     current_hp: int  # 現在HP
     max_mp: int  # 最大MP
