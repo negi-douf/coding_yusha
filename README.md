@@ -81,5 +81,5 @@ $ chmod +x .git/hooks/pre-commit
 ```sh
 #!/bin/sh
 
- poetry run flake8 && poetry run isort --check-only . && poetry run pytest
+poetry run flake8 && poetry run isort --check-only . && poetry run pytest
 ```
