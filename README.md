@@ -36,3 +36,50 @@
   プレイヤーはすでに基本の構文・記述方法を修得しているものとする。
 - シナリオを重視しない
 - グラフィックを重視しない
+
+## Usage
+
+### 単体テスト
+
+```sh
+$ poetry run pytest
+```
+
+### フォーマット
+
+```sh
+$ poetry run autopep8 --in-place --aggressive --recursive coding_yusha/
+```
+
+### lint
+
+```sh
+$ poetry run flake8
+```
+
+### インポート文のソート
+
+```sh
+$ poetry run isort .
+```
+
+## Tips
+
+### Gitフックの設定
+
+Gitフックを設定することでコミット前にコードベースの検証ができる。
+そのために、まずpre-commit実行ファイルを作成する。
+
+```sh
+$ touch .git/hooks/pre-commit
+$ chmod +x .git/hooks/pre-commit
+```
+
+作成した実行ファイルに下記の内容を書き込んで保存。
+この設定によって`poetry run pytest && poetry run flake8`がコミット時に実行され、コマンドが成功したらコミット出来るようになる。
+
+```sh
+#!/bin/sh
+
+poetry run flake8 && poetry run isort --check-only . && poetry run pytest
+```

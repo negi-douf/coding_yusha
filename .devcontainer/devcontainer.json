@@ -15,11 +15,31 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "poetry install && poetry shell"
+  "postCreateCommand": "poetry install && poetry shell",
 
   // Configure tool-specific properties.
   // "customizations": {},
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        },
+        "flake8.showNotifications": "always",
+        "flake8.args": [
+          "--config=${workspaceFolder}/.flake8"
+        ]
+      },
+      "extensions": [
+        "ms-python.autopep8",
+        "ms-python.isort",
+        "ms-python.flake8",
+        "ms-python.python"
+      ]
+    }
+  }
 }
