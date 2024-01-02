@@ -51,3 +51,6 @@ class Unit():
         Unitからの攻撃をガードする
         """
         return Event(self.name, self.name, "guard")
+
+    def main(self):
+        pass
