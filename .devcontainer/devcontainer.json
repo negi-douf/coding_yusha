@@ -38,7 +38,8 @@
         "ms-python.autopep8",
         "ms-python.isort",
         "ms-python.flake8",
-        "ms-python.python"
+        "ms-python.python",
+        "DavidAnson.vscode-markdownlint"
       ]
     }
   }
