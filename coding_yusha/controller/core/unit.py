@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
+from coding_yusha.controller.core.event import Event
 
 
-class Unit(ABC):
+class Unit():
     name: str  # 名前。戦闘の中でユニークである必要がある
     max_hp: int  # 最大HP
     current_hp: int  # 現在HP
@@ -13,31 +13,41 @@ class Unit(ABC):
     md: int  # 魔法防御力
     agi: int  # 素早さ
 
-    @abstractmethod
-    def attack(self, target):
+    def __init__(self, name: str, max_hp: int, current_hp: int, max_mp: int, current_mp: int,
+                 pa: int, pd: int, ma: int, md: int, agi: int):
+        self.name = name
+        self.max_hp = max_hp
+        self.current_hp = current_hp
+        self.max_mp = max_mp
+        self.current_mp = current_mp
+        self.pa = pa
+        self.pd = pd
+        self.ma = ma
+        self.md = md
+        self.agi = agi
+
+    def attack(self, target: str):
         """
 
         選択したUnitに通常攻撃を行う
 
         Args:
-            target: 攻撃対象
+            target (str): 攻撃対象
         """
-        pass
+        return Event(self.name, target, "attack")
 
-    @abstractmethod
-    def special_move(self, target=None):
+    def special_move(self, target: str = None):
         """
 
         選択したUnitに特技を使う
 
         Args:
-            target: 対象
+            target (str): 対象
         """
-        pass
+        return Event(self.name, target, "special_move")
 
-    @abstractmethod
     def guard(self):
         """
         Unitからの攻撃をガードする
         """
-        pass
+        return Event(self.name, self.name, "guard")
