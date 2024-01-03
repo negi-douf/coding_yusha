@@ -5,8 +5,8 @@ from coding_yusha.controller.core.unit import Unit
 
 
 def test_create_unit_from_yml():
-    unit = create_unit_from_yml("test", "success.yml")
-    expected_unit = Unit("success", 10, 10, 10, 10, 10, 10, 10, 10, 10)
+    unit = create_unit_from_yml("test", "ally_01.yml")
+    expected_unit = Unit("ally_01", 10, 10, 10, 10, 10, 10, 10, 10, 10)
 
     assert unit._equals(expected_unit)
 
