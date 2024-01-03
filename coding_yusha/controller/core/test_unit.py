@@ -33,3 +33,17 @@ def test_guard():
     assert result.sender == expected_event.sender
     assert result.target == expected_event.target
     assert result.move == expected_event.move
+
+
+def test_equals():
+    unit = Unit("sender", 10, 10, 10, 10, 10, 10, 10, 10, 10)
+    other = Unit("sender", 10, 10, 10, 10, 10, 10, 10, 10, 10)
+
+    assert unit._equals(other)
+
+
+def test_not_equals():
+    unit = Unit("sender", 10, 10, 10, 10, 10, 10, 10, 10, 10)
+    other = Unit("other", 10, 10, 10, 10, 10, 10, 10, 10, 10)
+
+    assert not unit._equals(other)
