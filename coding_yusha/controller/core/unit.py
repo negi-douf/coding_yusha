@@ -54,3 +54,17 @@ class Unit():
 
     def main(self):
         pass
+
+    def _equals(self, other: "Unit") -> bool:
+        return (
+            self.name == other.name and
+            self.max_hp == other.max_hp and
+            self.current_hp == other.current_hp and
+            self.max_mp == other.max_mp and
+            self.current_mp == other.current_mp and
+            self.pa == other.pa and
+            self.pd == other.pd and
+            self.ma == other.ma and
+            self.md == other.md and
+            self.agi == other.agi
+        )
