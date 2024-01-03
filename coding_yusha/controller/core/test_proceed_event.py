@@ -1,10 +1,13 @@
-from coding_yusha.controller.core import proceed_event
 from coding_yusha.controller.core.event import Event
 from coding_yusha.controller.core.field import Field
+from coding_yusha.controller.core.proceed_event import proceed_event
 from coding_yusha.controller.core.unit import Unit
 
 
 def test_proceed_attack():
+    """
+    通常攻撃ダメージ = 攻撃Unitの物理威力 - 防御Unitの物理防御力
+    """
     ally_01 = Unit("ally_01", 10, 10, 10, 10, 10, 10, 10, 10, 10)
     allies = [ally_01]
     enemy_01 = Unit("enemy_01", 10, 10, 10, 10, 10, 5, 10, 10, 10)
