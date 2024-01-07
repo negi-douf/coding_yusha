@@ -1,5 +1,4 @@
 from coding_yusha.controller.core import attach_parameters_for_unit
-from coding_yusha.controller.core.unit import Unit
 
 
 def test_list_unit_files():
@@ -25,7 +24,6 @@ def test_list_unit_files():
     }
 
     result_dict = attach_parameters_for_unit.list_unit_files(dirname, python_files)
-    # breakpoint()
     assert result_dict == expected_dict
 
 
