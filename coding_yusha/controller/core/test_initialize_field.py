@@ -1,4 +1,5 @@
 import pytest
+from yaml import safe_load
 
 from coding_yusha.controller.core import initialize_field
 
@@ -30,18 +31,49 @@ def test_load_stage_info_not_found():
     assert str(e.value) == "infoファイルが見つかりません: test/not_found"
 
 
-def test_load_stage_info_allies_not_found():
+def test_validate_stage_info_allies_key_not_found():
+    with open("coding_yusha/assets/test/allies_key_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
     with pytest.raises(KeyError) as e:
-        _ = initialize_field.load_stage_info("test/allies_not_found")
+        assert initialize_field.validate_stage_info("test/allies_key_not_found", stage_info)
 
     assert str(e.value) == "\"infoファイルの中に 'allies'が見つかりません\""
 
 
-def test_load_stage_info_enemies_not_found():
+def test_validate_stage_info_enemies_key_not_found():
+    with open("coding_yusha/assets/test/enemies_key_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
     with pytest.raises(KeyError) as e:
-        _ = initialize_field.load_stage_info("test/enemies_not_found")
+        assert initialize_field.validate_stage_info("test/enemies_key_not_found", stage_info)
 
     assert str(e.value) == "\"infoファイルの中に 'enemies'が見つかりません\""
+
+
+def test_validate_stage_info_enemy_yml_not_found():
+    with open("coding_yusha/assets/test/enemy_yml_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
+    with pytest.raises(FileNotFoundError) as e:
+        assert initialize_field.validate_stage_info("test/enemy_yml_not_found", stage_info)
+
+    assert str(e.value) == "敵の ymlファイルが見つかりません: enemy_01.yml"
+
+
+def test_validate_stage_info_enemy_py_not_found():
+    with open("coding_yusha/assets/test/enemy_py_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
+    with pytest.raises(FileNotFoundError) as e:
+        assert initialize_field.validate_stage_info("test/enemy_py_not_found", stage_info)
+
+    assert str(e.value) == "敵の ymlファイルが見つかりません: enemy_01.yml"
+
+
+def test_validate_stage_info_ally_yml_not_found():
+    with open("coding_yusha/assets/test/ally_yml_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
+    with pytest.raises(FileNotFoundError) as e:
+        assert initialize_field.validate_stage_info("test/ally_yml_not_found", stage_info)
+
+    assert str(e.value) == "味方の ymlファイルが見つかりません: ally_02.yml"
 
 
 def test_validate_ally_py_files(test_stage_info):
