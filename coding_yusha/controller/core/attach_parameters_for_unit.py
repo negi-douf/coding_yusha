@@ -2,8 +2,6 @@ from os import path
 
 from yaml import safe_load
 
-# from coding_yusha.controller.core.unit import Unit
-
 
 def load_info(dirname: str):
     default_yml_dir = "coding_yusha/assets"
@@ -49,3 +47,13 @@ def list_unit_files(dirname: str, python_files: list[str]) -> dict[str, list[dic
         "allies": ally_files,
         "enemies": enemy_files,
     }
+
+
+# def create_unit_list_from_files(files: dict[str, list[dict[str, str]]]) -> dict[str, list[Unit]]:
+#     unit_list = {}
+#     for allies_or_enemies, file_pair_list in files.items():
+#         unit_list[allies_or_enemies] = []
+#         for py_and_yml in file_pair_list:
+#             unit = Unit.create_unit_from_file(py_and_yml["py"], py_and_yml["yml"])
+#             unit_list[allies_or_enemies].append(unit)
+#     return unit_list

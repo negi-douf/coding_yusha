@@ -1,7 +1,7 @@
 unit:
   name: "enemy_01"
   max_hp: 10
-  current_hp: 10
+  current_hp: 5
   max_mp: 10
   current_mp: 10
   pa: 10

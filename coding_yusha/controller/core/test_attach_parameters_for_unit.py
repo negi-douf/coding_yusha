@@ -42,8 +42,8 @@ def test_list_unit_files():
 #             },
 #         ],
 #     }
-#     expected_ally_01 = Unit("ally_01", 10, 10, 10, 10, 10, 10, 10, 10, 10)
-#     expected_enemy_01 = Unit("enemy_01", 10, 10, 10, 10, 10, 10, 10, 10, 10)
+#     expected_ally_01 = Unit("test", "ally_01.yml")
+#     expected_enemy_01 = Unit("test", "enemy_01.yml")
 #     expected_unit_list = {
 #         "allies": [expected_ally_01],
 #         "enemies": [expected_enemy_01],
