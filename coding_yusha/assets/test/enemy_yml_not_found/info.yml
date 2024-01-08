@@ -1,0 +1,5 @@
+allies:
+  - ally_01.yml
+  - ally_02.yml
+enemies:
+  - enemy_01.yml
