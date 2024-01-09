@@ -17,28 +17,26 @@ class Unit():
     md: int  # 魔法防御力
     agi: int  # 素早さ
 
-    def __init__(self, stage: str, yml_file: str):
-        yml_path = path.join("coding_yusha/assets", stage, yml_file)
+    def attach_parameter(self, stage, yml_file: str):
+        default_dir = "coding_yusha/assets"
+        yml_path = path.join(default_dir, stage, yml_file)
         try:
-            self.attach_parameter(yml_path)
+            with open(yml_path, "r", encoding="utf-8") as f:
+                body = safe_load(f)
+            self.name = body["unit"]["name"]
+            self.max_hp = body["unit"]["max_hp"]
+            self.current_hp = body["unit"]["current_hp"]
+            self.max_mp = body["unit"]["max_mp"]
+            self.current_mp = body["unit"]["current_mp"]
+            self.pa = body["unit"]["pa"]
+            self.pd = body["unit"]["pd"]
+            self.ma = body["unit"]["ma"]
+            self.md = body["unit"]["md"]
+            self.agi = body["unit"]["agi"]
         except FileNotFoundError as e:
             raise FileNotFoundError(f"ymlファイルが見つかりません: {yml_path}") from e
         except KeyError as e:
             raise KeyError(f"Unitの初期化に必要なパラメータが見つかりません: {yml_path}") from e
-
-    def attach_parameter(self, yml_path: str):
-        with open(yml_path, "r", encoding="utf-8") as f:
-            body = safe_load(f)
-        self.name = body["unit"]["name"]
-        self.max_hp = body["unit"]["max_hp"]
-        self.current_hp = body["unit"]["current_hp"]
-        self.max_mp = body["unit"]["max_mp"]
-        self.current_mp = body["unit"]["current_mp"]
-        self.pa = body["unit"]["pa"]
-        self.pd = body["unit"]["pd"]
-        self.ma = body["unit"]["ma"]
-        self.md = body["unit"]["md"]
-        self.agi = body["unit"]["agi"]
 
     def attack(self, target: str):
         """
