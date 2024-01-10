@@ -16,6 +16,7 @@ class Unit():
     ma: int  # 魔法攻撃力
     md: int  # 魔法防御力
     agi: int  # 素早さ
+    parameter_file: str  # パラメータファイルのパス
 
     def attach_parameter(self, stage, yml_file: str):
         default_dir = "coding_yusha/assets"
@@ -33,6 +34,7 @@ class Unit():
             self.ma = body["unit"]["ma"]
             self.md = body["unit"]["md"]
             self.agi = body["unit"]["agi"]
+            self.parameter_file = yml_file
         except FileNotFoundError as e:
             raise FileNotFoundError(f"ymlファイルが見つかりません: {yml_path}") from e
         except KeyError as e:

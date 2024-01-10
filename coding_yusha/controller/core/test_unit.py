@@ -11,6 +11,20 @@ def ally_01():
     return unit
 
 
+def test_attach_parameter(ally_01):
+    assert ally_01.name == "ally_01"
+    assert ally_01.max_hp == 10
+    assert ally_01.current_hp == 10
+    assert ally_01.max_mp == 10
+    assert ally_01.current_mp == 10
+    assert ally_01.pa == 10
+    assert ally_01.pd == 10
+    assert ally_01.ma == 10
+    assert ally_01.md == 10
+    assert ally_01.agi == 10
+    assert ally_01.parameter_file == "ally_01.yml"
+
+
 def test_attack(ally_01):
     result = ally_01.attack("target")
     expected_event = Event("ally_01", "target", "attack")
