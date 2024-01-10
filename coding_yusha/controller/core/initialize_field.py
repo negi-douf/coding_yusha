@@ -57,7 +57,7 @@ def validate_ally_py_files(stage_info: dict[str, list[str]], ally_py_files: list
     if len(ally_py_files) != len(stage_info["allies"]):
         raise FileNotFoundError("味方の pyファイルの数が不正です")
 
-    # 短く書くため、拡張子だけのリストを作って比較したい
+    # 短く書くため、拡張子のリストを作って比較したい
     py_filenames = [path.splitext(path.basename(ally_py))[0] for ally_py in ally_py_files]
     yml_filenames = [path.splitext(path.basename(ally_yml))[0] for ally_yml in stage_info["allies"]]
     for py_filename in py_filenames:
