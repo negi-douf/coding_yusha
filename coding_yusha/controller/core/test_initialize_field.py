@@ -2,6 +2,8 @@ import pytest
 from yaml import safe_load
 
 from coding_yusha.controller.core import initialize_field
+from coding_yusha.controller.core.field import Field
+from coding_yusha.controller.core.unit import Unit
 
 
 @pytest.fixture
@@ -98,3 +100,19 @@ def test_validate_ally_py_files_name_unmatch(test_stage_info):
         initialize_field.validate_ally_py_files(test_stage_info, ally_py_files)
 
     assert str(e.value) == "味方の pyファイルの名前が不正です: ally_03"
+
+
+def test_initialize_field():
+    ally_py_files = ["coding_yusha/assets/test/ally_01.py",
+                     "coding_yusha/assets/test/ally_02.py"]
+    ally_01 = Unit()
+    ally_01.attach_parameter("test", "ally_01.yml")
+    ally_02 = Unit()
+    ally_02.attach_parameter("test", "ally_02.yml")
+    enemy_01 = Unit()
+    enemy_01.attach_parameter("test", "enemy_01.yml")
+    expected_field = Field([ally_01, ally_02], [enemy_01])
+
+    field = initialize_field.initialize_field("test", ally_py_files)
+
+    assert field._equals(expected_field)
