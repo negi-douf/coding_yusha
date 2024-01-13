@@ -1,3 +1,5 @@
+stage: "test/enemy_py_not_found"
+dir: "coding_yusha/assets/test/enemy_py_not_found"
 allies:
   - ally_01.yml
   - ally_02.yml

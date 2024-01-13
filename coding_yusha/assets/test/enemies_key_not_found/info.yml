@@ -1,2 +1,4 @@
+stage: "test/enemies_key_not_found"
+dir: "coding_yusha/assets/test/enemies_key_not_found"
 allies:
   - ally_01.yml
