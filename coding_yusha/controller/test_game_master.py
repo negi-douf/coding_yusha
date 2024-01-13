@@ -12,6 +12,13 @@ def test_init():
     expected_ally_02.attach_parameter("coding_yusha/assets/test/ally_02.yml")
     expected_enemy_01 = Unit()
     expected_enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01.yml")
+    expected_stage_info = {
+        "stage": "test",
+        "dir": "coding_yusha/assets/test",
+        "allies": ["ally_01.yml", "ally_02.yml"],
+        "enemies": ["enemy_01.yml"],
+    }
     expected_field = Field([expected_ally_01, expected_ally_02], [expected_enemy_01])
 
+    assert game_master.stage_info == expected_stage_info
     assert game_master.field._equals(expected_field)

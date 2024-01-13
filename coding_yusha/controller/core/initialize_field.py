@@ -6,19 +6,7 @@ from coding_yusha.controller.core.field import Field
 from coding_yusha.controller.core.unit import Unit
 
 
-def initialize_field(stage: str, ally_py_files: list[str]):
-    stage_info = load_stage_info(stage)
-    validate_ally_py_files(stage_info, ally_py_files)
-    files_map = map_files(stage, stage_info, ally_py_files)
-    allies = []
-    for ally_py in ally_py_files:
-        allies.append(generate_unit_from_py(ally_py))
-    (allies, enemies) = initialize_units(stage, files_map)
-    field = Field(allies, enemies)
-    return field
-
-
-def load_stage_info(stage: str):
+def load_stage_info(stage: str) -> dict[str, list[str]]:
     default_yml_dir = "coding_yusha/assets"
     info_yml_path = path.join(default_yml_dir, stage, "info.yml")
     try:
@@ -56,6 +44,17 @@ def validate_stage_info(stage: str, stage_info: dict[str, list[str]]):
             raise FileNotFoundError(f"味方の ymlファイルが見つかりません: {ally_yml}")
 
     return True
+
+
+def initialize_field(stage_info: dict[str, list[str]], ally_py_files: list[str]):
+    validate_ally_py_files(stage_info, ally_py_files)
+    files_map = map_files(stage_info["stage"], stage_info, ally_py_files)
+    allies = []
+    for ally_py in ally_py_files:
+        allies.append(generate_unit_from_py(ally_py))
+    (allies, enemies) = initialize_units(stage_info["stage"], files_map)
+    field = Field(allies, enemies)
+    return field
 
 
 def validate_ally_py_files(stage_info: dict[str, list[str]], ally_py_files: list[str]):

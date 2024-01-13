@@ -17,6 +17,8 @@ def test_stage_info():
 
 def test_load_stage_info():
     expected = {
+        "stage": "test",
+        "dir": "coding_yusha/assets/test",
         "allies": ["ally_01.yml", "ally_02.yml"],
         "enemies": ["enemy_01.yml"],
     }
@@ -111,8 +113,14 @@ def test_initialize_field():
     ally_02.attach_parameter("coding_yusha/assets/test/ally_02.yml")
     enemy_01 = Unit()
     enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01.yml")
+    stage_info = {
+        "stage": "test",
+        "dir": "coding_yusha/assets/test",
+        "allies": ["ally_01.yml", "ally_02.yml"],
+        "enemies": ["enemy_01.yml"],
+    }
     expected_field = Field([ally_01, ally_02], [enemy_01])
 
-    field = initialize_field.initialize_field("test", ally_py_files)
+    field = initialize_field.initialize_field(stage_info, ally_py_files)
 
     assert field._equals(expected_field)
