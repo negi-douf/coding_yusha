@@ -106,11 +106,11 @@ def test_initialize_field():
     ally_py_files = ["coding_yusha/assets/test/ally_01.py",
                      "coding_yusha/assets/test/ally_02.py"]
     ally_01 = Unit()
-    ally_01.attach_parameter("test", "ally_01.yml")
+    ally_01.attach_parameter("coding_yusha/assets/test/ally_01.yml")
     ally_02 = Unit()
-    ally_02.attach_parameter("test", "ally_02.yml")
+    ally_02.attach_parameter("coding_yusha/assets/test/ally_02.yml")
     enemy_01 = Unit()
-    enemy_01.attach_parameter("test", "enemy_01.yml")
+    enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01.yml")
     expected_field = Field([ally_01, ally_02], [enemy_01])
 
     field = initialize_field.initialize_field("test", ally_py_files)

@@ -1,5 +1,3 @@
-from os import path
-
 from yaml import safe_load
 
 from coding_yusha.controller.core.event import Event
@@ -16,13 +14,10 @@ class Unit():
     ma: int  # 魔法攻撃力
     md: int  # 魔法防御力
     agi: int  # 素早さ
-    parameter_file: str  # パラメータファイルのパス
 
-    def attach_parameter(self, stage, yml_file: str):
-        default_dir = "coding_yusha/assets"
-        yml_path = path.join(default_dir, stage, yml_file)
+    def attach_parameter(self, yml_file: str):
         try:
-            with open(yml_path, "r", encoding="utf-8") as f:
+            with open(yml_file, "r", encoding="utf-8") as f:
                 body = safe_load(f)
             self.name = body["unit"]["name"]
             self.max_hp = body["unit"]["max_hp"]
@@ -34,11 +29,10 @@ class Unit():
             self.ma = body["unit"]["ma"]
             self.md = body["unit"]["md"]
             self.agi = body["unit"]["agi"]
-            self.parameter_file = yml_file
         except FileNotFoundError as e:
-            raise FileNotFoundError(f"ymlファイルが見つかりません: {yml_path}") from e
+            raise FileNotFoundError(f"ymlファイルが見つかりません: {yml_file}") from e
         except KeyError as e:
-            raise KeyError(f"Unitの初期化に必要なパラメータが見つかりません: {yml_path}") from e
+            raise KeyError(f"Unitの初期化に必要なパラメータが見つかりません: {yml_file}") from e
 
     def attack(self, target: str):
         """

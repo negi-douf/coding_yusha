@@ -89,12 +89,13 @@ def map_files(stage: str, stage_info: dict[str, list[str]], ally_py_files: list[
         py_filename = name + ".py"
         for ally_py in ally_py_files:
             if path.basename(ally_py) == py_filename:
-                _map = {"yml": yml, "py": ally_py}
+                yml_path = path.join(default_dir, stage, yml)
+                _map = {"yml": yml_path, "py": ally_py}
                 map["allies"][name] = _map
     for yml in stage_info["enemies"]:
-        name = path.splitext(yml)[0]
-        py_path = path.join(default_dir, stage, name + ".py")
-        _map = {"yml": yml, "py": py_path}
+        yml_path = path.join(default_dir, stage, yml)
+        py_path = yml_path.replace(".yml", ".py")
+        _map = {"yml": yml_path, "py": py_path}
         map["enemies"][name] = _map
     return map
 
@@ -113,7 +114,7 @@ def generate_unit_from_py(unit_py: str) -> Unit:
     try:
         exec("unit = main()", globals(), result)
         unit = result["unit"]
-        unit.attach_parameter("test", "ally_01.yml")
+        unit.attach_parameter("coding_yusha/assets/test/ally_01.yml")
         return unit
     except Exception as e:
         original_error_str = f"{e.__class__.__name__}: {str(e)}"
@@ -133,7 +134,7 @@ def initialize_units(stage: str, files_map: dict[str, dict[str, str]]) \
     for key in files_map:
         for _, files in files_map[key].items():
             unit = generate_unit_from_py(files["py"])
-            unit.attach_parameter(stage, files["yml"])
+            unit.attach_parameter(files["yml"])
             if key == "allies":
                 allies.append(unit)
             else:

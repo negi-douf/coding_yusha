@@ -7,7 +7,7 @@ from coding_yusha.controller.core.unit import Unit
 @pytest.fixture
 def ally_01():
     unit = Unit()
-    unit.attach_parameter("test", "ally_01.yml")
+    unit.attach_parameter("coding_yusha/assets/test/ally_01.yml")
     return unit
 
 
@@ -22,7 +22,6 @@ def test_attach_parameter(ally_01):
     assert ally_01.ma == 10
     assert ally_01.md == 10
     assert ally_01.agi == 10
-    assert ally_01.parameter_file == "ally_01.yml"
 
 
 def test_attack(ally_01):
@@ -70,7 +69,7 @@ def test_equals(ally_01):
 
 def test_not_equals(ally_01):
     other = Unit()
-    other.attach_parameter("test", "ally_02.yml")
+    other.attach_parameter("coding_yusha/assets/test/ally_02.yml")
 
     assert not ally_01._equals(other)
 
@@ -78,7 +77,7 @@ def test_not_equals(ally_01):
 def test_init_yml_not_found():
     unit = Unit()
     with pytest.raises(FileNotFoundError) as e:
-        unit.attach_parameter("test", "not_found.yml")
+        unit.attach_parameter("coding_yusha/assets/test/not_found.yml")
 
     assert str(e.value) == "ymlファイルが見つかりません: coding_yusha/assets/test/not_found.yml"
 
@@ -86,6 +85,6 @@ def test_init_yml_not_found():
 def test_init_parameter_not_enough():
     unit = Unit()
     with pytest.raises(KeyError) as e:
-        unit.attach_parameter("test", "not_enough.yml")
+        unit.attach_parameter("coding_yusha/assets/test/not_enough.yml")
 
     assert str(e.value) == "'Unitの初期化に必要なパラメータが見つかりません: coding_yusha/assets/test/not_enough.yml'"

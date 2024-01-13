@@ -9,14 +9,14 @@ from coding_yusha.controller.core.unit import Unit
 @pytest.fixture
 def ally_01():
     ally_01 = Unit()
-    ally_01.attach_parameter("test", "ally_01.yml")
+    ally_01.attach_parameter("coding_yusha/assets/test/ally_01.yml")
     return ally_01
 
 
 @pytest.fixture
 def enemy_01():
     enemy_01 = Unit()
-    enemy_01.attach_parameter("test", "enemy_01.yml")
+    enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01.yml")
     return enemy_01
 
 
@@ -31,7 +31,7 @@ def test_proceed_attack(ally_01, enemy_01):
 
     expected_allies = [ally_01]
     expected_enemy_01 = Unit()
-    expected_enemy_01.attach_parameter("test", "enemy_01_damaged.yml")
+    expected_enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01_damaged.yml")
     expected_enemies = [expected_enemy_01]
     expected_field = Field(expected_allies, expected_enemies)
 
