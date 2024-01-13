@@ -18,7 +18,7 @@ def test_init():
         "allies": ["ally_01.yml", "ally_02.yml"],
         "enemies": ["enemy_01.yml"],
     }
-    expected_ally_files = {
+    expected_ally_file_map = {
         "ally_01": {
             "yml": "coding_yusha/assets/test/ally_01.yml",
             "py": "coding_yusha/assets/test/ally_01.py",
@@ -28,7 +28,7 @@ def test_init():
             "py": "coding_yusha/assets/test/ally_02.py",
         },
     }
-    expected_enemy_files = {
+    expected_enemy_file_map = {
         "enemy_01": {
             "yml": "coding_yusha/assets/test/enemy_01.yml",
             "py": "coding_yusha/assets/test/enemy_01.py",
@@ -37,6 +37,6 @@ def test_init():
     expected_field = Field([expected_ally_01, expected_ally_02], [expected_enemy_01])
 
     assert game_master.stage_info == expected_stage_info
-    assert game_master.ally_files == expected_ally_files
-    assert game_master.enemy_files == expected_enemy_files
+    assert game_master.ally_file_map == expected_ally_file_map
+    assert game_master.enemy_file_map == expected_enemy_file_map
     assert game_master.field._equals(expected_field)
