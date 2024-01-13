@@ -35,6 +35,24 @@ def test_load_stage_info_not_found():
     assert str(e.value) == "infoファイルが見つかりません: test/not_found"
 
 
+def test_validate_stage_info_stage_key_not_found():
+    with open("coding_yusha/assets/test/stage_key_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
+    with pytest.raises(KeyError) as e:
+        assert initialize_field.validate_stage_info("test/stage_key_not_found", stage_info)
+
+    assert str(e.value) == "\"infoファイルの中に 'stage'が見つかりません\""
+
+
+def test_validate_stage_info_dir_key_not_found():
+    with open("coding_yusha/assets/test/dir_key_not_found/info.yml", "r") as f:
+        stage_info = safe_load(f)
+    with pytest.raises(KeyError) as e:
+        assert initialize_field.validate_stage_info("test/dir_key_not_found", stage_info)
+
+    assert str(e.value) == "\"infoファイルの中に 'dir'が見つかりません\""
+
+
 def test_validate_stage_info_allies_key_not_found():
     with open("coding_yusha/assets/test/allies_key_not_found/info.yml", "r") as f:
         stage_info = safe_load(f)

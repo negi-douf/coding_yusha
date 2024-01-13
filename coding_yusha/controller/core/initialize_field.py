@@ -22,25 +22,29 @@ def load_stage_info(stage: str) -> dict[str, list[str]]:
 def validate_stage_info(stage: str, stage_info: dict[str, list[str]]):
     """
         確認したいのは
-        1. dictの中に alliesの keyが存在すること
-        2. dictの中に enemiesの keyが存在すること
-        3. enemiesの ymlが存在すること
-        4. enemiesの pyが存在すること
-        5. alliesの ymlが存在すること
+        1. stageの keyが存在すること
+        2. dirの keyが存在すること
+        3. alliesの keyが存在すること
+        4. enemiesの keyが存在すること
+        5. enemiesの ymlが存在すること
+        6. enemiesの pyが存在すること
+        7. alliesの ymlが存在すること
     """
+    if "stage" not in stage_info.keys():
+        raise KeyError("infoファイルの中に 'stage'が見つかりません")
+    if "dir" not in stage_info.keys():
+        raise KeyError("infoファイルの中に 'dir'が見つかりません")
     if "allies" not in stage_info.keys():
         raise KeyError("infoファイルの中に 'allies'が見つかりません")
-
     if "enemies" not in stage_info.keys():
         raise KeyError("infoファイルの中に 'enemies'が見つかりません")
 
-    default_dir = "coding_yusha/assets"
     for enemy_yml in stage_info["enemies"]:
-        if not path.exists(path.join(default_dir, stage, enemy_yml)):
+        if not path.exists(path.join(stage_info["dir"], enemy_yml)):
             raise FileNotFoundError(f"敵の ymlファイルが見つかりません: {enemy_yml}")
 
     for ally_yml in stage_info["allies"]:
-        if not path.exists(path.join(default_dir, stage, ally_yml)):
+        if not path.exists(path.join(stage_info["dir"], ally_yml)):
             raise FileNotFoundError(f"味方の ymlファイルが見つかりません: {ally_yml}")
 
     return True
