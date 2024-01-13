@@ -2,9 +2,6 @@ from os import path
 
 from yaml import safe_load
 
-from coding_yusha.controller.core.field import Field
-from coding_yusha.controller.core.unit import Unit
-
 
 def load_stage_info(stage: str) -> dict[str, list[str]]:
     default_yml_dir = "coding_yusha/assets"
@@ -50,15 +47,19 @@ def validate_stage_info(stage: str, stage_info: dict[str, list[str]]):
     return True
 
 
-def initialize_field(stage_info: dict[str, list[str]], ally_py_files: list[str]):
+def map_ally_files(stage_info: dict[str, list[str]], ally_py_files: list[str]) -> dict[str, str]:
     validate_ally_py_files(stage_info, ally_py_files)
-    files_map = map_files(stage_info["stage"], stage_info, ally_py_files)
-    allies = []
-    for ally_py in ally_py_files:
-        allies.append(generate_unit_from_py(ally_py))
-    (allies, enemies) = initialize_units(stage_info["stage"], files_map)
-    field = Field(allies, enemies)
-    return field
+    ally_names = [path.splitext(yml)[0] for yml in stage_info["allies"]]
+    map = {}
+    for ally_name in ally_names:
+        for ally_py in ally_py_files:
+            if path.splitext(path.basename(ally_py))[0] == ally_name:
+                file_pair = {
+                    "py": ally_py,
+                    "yml": path.join(stage_info["dir"], ally_name + ".yml"),
+                }
+                map[ally_name] = file_pair
+    return map
 
 
 def validate_ally_py_files(stage_info: dict[str, list[str]], ally_py_files: list[str]):
@@ -80,66 +81,14 @@ def validate_ally_py_files(stage_info: dict[str, list[str]], ally_py_files: list
     return True
 
 
-def map_files(stage: str, stage_info: dict[str, list[str]], ally_py_files: list[str]) \
-        -> dict[str, str]:
-    '''
-    対応する pyファイルと ymlファイルを dictにまとめる
-    '''
-    default_dir = "coding_yusha/assets"
-    map = {"allies": {}, "enemies": {}}
-    for yml in stage_info["allies"]:
-        name = path.splitext(yml)[0]
-        py_filename = name + ".py"
-        for ally_py in ally_py_files:
-            if path.basename(ally_py) == py_filename:
-                yml_path = path.join(default_dir, stage, yml)
-                _map = {"yml": yml_path, "py": ally_py}
-                map["allies"][name] = _map
+def map_enemy_files(stage_info: dict[str, list[str]]) -> dict[str, str]:
+    # validationは済んでいるはず
+    map = {}
     for yml in stage_info["enemies"]:
-        yml_path = path.join(default_dir, stage, yml)
-        py_path = yml_path.replace(".yml", ".py")
-        _map = {"yml": yml_path, "py": py_path}
-        map["enemies"][name] = _map
+        file_pair = {
+            "py": path.join(stage_info["dir"], yml.replace(".yml", ".py")),
+            "yml": path.join(stage_info["dir"], yml),
+        }
+        enemy_name = path.splitext(path.basename(yml))[0]
+        map[enemy_name] = file_pair
     return map
-
-
-def generate_unit_from_py(unit_py: str) -> Unit:
-    """
-    pyファイルから Unitを生成する
-    プレイヤーの定義した振る舞いをさせるために、
-    pyファイルの文字列を読み込んで、execで実行する
-    """
-    with open(unit_py, "r", encoding="utf-8") as f:
-        code = f.read()
-    global main
-    exec(code, globals())
-    result = {}
-    try:
-        exec("unit = main()", globals(), result)
-        unit = result["unit"]
-        unit.attach_parameter("coding_yusha/assets/test/ally_01.yml")
-        return unit
-    except Exception as e:
-        original_error_str = f"{e.__class__.__name__}: {str(e)}"
-
-    # TODO: 専用のエラークラスを作る
-    # TODO: 呼び出し元で余計なスタックトレースを表示しないようにする
-    raise Exception(
-        f"Unitの生成に失敗しました: {unit_py}\n"
-        + "指定された pyファイルで以下のエラーが発生しました\n"
-        + original_error_str)
-
-
-def initialize_units(stage: str, files_map: dict[str, dict[str, str]]) \
-        -> tuple[list[Unit], list[Unit]]:
-    allies = []
-    enemies = []
-    for key in files_map:
-        for _, files in files_map[key].items():
-            unit = generate_unit_from_py(files["py"])
-            unit.attach_parameter(files["yml"])
-            if key == "allies":
-                allies.append(unit)
-            else:
-                enemies.append(unit)
-    return (allies, enemies)
