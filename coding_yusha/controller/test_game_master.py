@@ -48,6 +48,22 @@ def test_init(game_master):
     assert game_master.field._equals(expected_field)
 
 
+def test_is_buttle_end_enemies_dead(game_master):
+    assert not game_master.is_buttle_end()
+    game_master.field.enemies[0].current_hp = 0
+
+    assert game_master.is_buttle_end()
+
+
+def test_is_buttle_end_allies_dead(game_master):
+    assert not game_master.is_buttle_end()
+    game_master.field.allies[0].current_hp = 0
+    assert not game_master.is_buttle_end()
+    game_master.field.allies[1].current_hp = 0
+
+    assert game_master.is_buttle_end()
+
+
 def test_decide_action_order(game_master):
     units_ordered = game_master.decide_action_order()
 
