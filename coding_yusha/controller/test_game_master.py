@@ -1,11 +1,17 @@
+import pytest
+
 from coding_yusha.controller.core.field import Field
 from coding_yusha.controller.core.unit import Unit
 from coding_yusha.controller.game_master import GameMaster
 
 
-def test_init():
-    game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
-                             "coding_yusha/assets/test/ally_02.py")
+@pytest.fixture
+def game_master():
+    return GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                      "coding_yusha/assets/test/ally_02.py")
+
+
+def test_init(game_master):
     expected_ally_01 = Unit()
     expected_ally_01.attach_parameter("coding_yusha/assets/test/ally_01.yml")
     expected_ally_02 = Unit()
@@ -40,3 +46,11 @@ def test_init():
     assert game_master.ally_file_map == expected_ally_file_map
     assert game_master.enemy_file_map == expected_enemy_file_map
     assert game_master.field._equals(expected_field)
+
+
+def test_decide_action_order(game_master):
+    units_ordered = game_master.decide_action_order()
+
+    # 素早さが同じ場合はランダムに並ぶ
+    # ally_01と enemy_01 の素早さは同じであるため、末尾だけを確認する
+    assert units_ordered[2].name == "ally_02"
