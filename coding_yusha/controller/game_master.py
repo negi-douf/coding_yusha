@@ -1,5 +1,8 @@
+from random import shuffle
+
 from coding_yusha.controller.core import generate_unit, parse_assets
 from coding_yusha.controller.core.field import Field
+from coding_yusha.controller.core.unit import Unit
 
 
 class GameMaster():
@@ -16,3 +19,10 @@ class GameMaster():
         allies = generate_unit.generate_allies(self.ally_file_map)
         enemies = generate_unit.generate_enemies(self.enemy_file_map)
         self.field = Field(allies, enemies)
+
+    def decide_action_order(self) -> [Unit]:
+        units = self.field.allies + self.field.enemies
+        # 同じ素早さのユニットはランダムに並べたいため、都度シャッフルする
+        shuffle(units)
+        units_ordered = sorted(units, key=lambda unit: unit.agi, reverse=True)
+        return units_ordered
