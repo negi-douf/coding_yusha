@@ -34,6 +34,9 @@ class Unit():
         except KeyError as e:
             raise KeyError(f"Unitの初期化に必要なパラメータが見つかりません: {yml_file}") from e
 
+    def is_dead(self) -> bool:
+        return self.current_hp <= 0
+
     def attack(self, target: str):
         """
 

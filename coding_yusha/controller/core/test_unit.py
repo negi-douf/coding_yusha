@@ -24,6 +24,13 @@ def test_attach_parameter(ally_01):
     assert ally_01.agi == 10
 
 
+def test_is_dead(ally_01):
+    assert not ally_01.is_dead()
+    ally_01.current_hp = 0
+
+    assert ally_01.is_dead()
+
+
 def test_attack(ally_01):
     result = ally_01.attack("target")
     expected_event = Event("ally_01", "target", "attack")
