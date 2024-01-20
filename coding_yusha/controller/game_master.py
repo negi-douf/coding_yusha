@@ -10,6 +10,8 @@ class GameMaster():
     stage_info: dict
     ally_file_map: dict
     enemy_file_map: dict
+    turn_num: int = 0
+    is_buttle_end: bool = False
 
     def __init__(self, stage: str, *ally_py_files: str):
         self.stage_info = parse_assets.load_stage_info(stage)
@@ -33,3 +35,13 @@ class GameMaster():
         print(f"ステージ: {self.stage_info['stage']}")
         print(f"敵: {[enemy.name for enemy in self.field.enemies]}")
         print(f"味方: {[ally.name for ally in self.field.allies]}")
+
+    def wait_for_next_turn(self):
+        valid_commands = ["w"]
+        # buttle, info, withdraw, help
+        command = input("> ")
+        while command not in valid_commands:
+            print(f"有効なコマンドは {valid_commands} です")
+            command = input("> ")
+        if command == "w":
+            self.is_buttle_end = True
