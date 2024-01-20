@@ -54,3 +54,16 @@ def test_decide_action_order(game_master):
     # 素早さが同じ場合はランダムに並ぶ
     # ally_01と enemy_01 の素早さは同じであるため、末尾だけを確認する
     assert units_ordered[2].name == "ally_02"
+
+
+def test_print_stage_info(game_master, capsys):
+    game_master.print_stage_info()
+    captured = capsys.readouterr()
+    expected = """\
+【戦闘開始】
+ステージ: test
+敵: ['enemy_01']
+味方: ['ally_01', 'ally_02']
+"""
+
+    assert captured.out == expected
