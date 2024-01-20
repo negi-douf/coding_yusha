@@ -56,8 +56,8 @@ def test_decide_action_order(game_master):
     assert units_ordered[2].name == "ally_02"
 
 
-def test_print_buttle_info(game_master, capsys):
-    game_master.print_buttle_info()
+def test_print_stage_info(game_master, capsys):
+    game_master.print_stage_info()
     captured = capsys.readouterr()
     expected = """\
 【戦闘開始】

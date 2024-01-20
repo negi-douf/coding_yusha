@@ -19,7 +19,7 @@ class GameMaster():
         allies = generate_unit.generate_allies(self.ally_file_map)
         enemies = generate_unit.generate_enemies(self.enemy_file_map)
         self.field = Field(allies, enemies)
-        self.print_buttle_info()
+        self.print_stage_info()
 
     def decide_action_order(self) -> [Unit]:
         units = self.field.allies + self.field.enemies
@@ -28,7 +28,7 @@ class GameMaster():
         units_ordered = sorted(units, key=lambda unit: unit.agi, reverse=True)
         return units_ordered
 
-    def print_buttle_info(self):
+    def print_stage_info(self):
         print("【戦闘開始】")
         print(f"ステージ: {self.stage_info['stage']}")
         print(f"敵: {[enemy.name for enemy in self.field.enemies]}")
