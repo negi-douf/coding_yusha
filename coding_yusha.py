@@ -8,4 +8,5 @@ if __name__ == "__main__":
     parser.add_argument("allies", type=str, nargs="+", help="味方ユニットのファイルパス")
     args = parser.parse_args()
 
-    _ = GameMaster(args.stage, *args.allies)
+    game_master = GameMaster(args.stage, *args.allies)
+    game_master.start()
