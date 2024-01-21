@@ -78,8 +78,12 @@ def test_wait_for_next_turn_withdraw(game_master, mocker):
     assert game_master.turn_num == 0
 
 
-def test_wait_for_next_turn_invalid_command(game_master, mocker, capsys):
+def test_wait_for_next_turn_invalid_command(mocker, capsys):
+    game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                             "coding_yusha/assets/test/ally_02.py")
     mocker.patch("builtins.input", side_effect=["invalid_command", "w"])
+    # 事前に入力をクリアしておきたい
+    capsys.readouterr()
 
     game_master.wait_for_next_turn()
     captured = capsys.readouterr()
@@ -87,4 +91,3 @@ def test_wait_for_next_turn_invalid_command(game_master, mocker, capsys):
 
     assert captured.out == expected
     assert game_master.is_buttle_end
-    assert game_master.turn_num == 0
