@@ -37,11 +37,25 @@ class GameMaster():
         print(f"味方: {[ally.name for ally in self.field.allies]}")
 
     def wait_for_next_turn(self):
-        valid_commands = ["w"]
+        valid_commands = ["i", "w"]
         # buttle, info, withdraw, help
         command = input("> ")
         while command not in valid_commands:
             print(f"有効なコマンドは {valid_commands} です")
             command = input("> ")
+        if command == "i":
+            self.print_info()
         if command == "w":
             self.is_buttle_end = True
+
+    def print_info(self):
+        print(f"ステージ: {self.stage_info['stage']}")
+        print(f"ターン: {self.turn_num}")
+        for enemy in self.field.enemies:
+            if enemy.is_dead():
+                print(f"{enemy.name}: HP 0/{enemy.max_hp}, MP ?/?")
+            else:
+                print(f"{enemy.name}: HP ?/?, MP ?/?")
+        for ally in self.field.allies:
+            print(f"{ally.name}: HP {ally.current_hp}/{ally.max_hp}, "
+                  "MP {ally.current_mp}/{ally.max_mp}")

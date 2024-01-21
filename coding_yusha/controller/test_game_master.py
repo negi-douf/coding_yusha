@@ -69,25 +69,47 @@ def test_print_stage_info(game_master, capsys):
     assert captured.out == expected
 
 
-def test_wait_for_next_turn_withdraw(game_master, mocker):
+def test_wait_for_next_turn_withdraw(mocker):
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
     mocker.patch("builtins.input", side_effect=["w"])
 
-    game_master.wait_for_next_turn()
+    _game_master.wait_for_next_turn()
 
-    assert game_master.is_buttle_end
-    assert game_master.turn_num == 0
+    assert _game_master.is_buttle_end
+    assert _game_master.turn_num == 0
+
+
+def test_wait_for_next_turn_print_info(mocker, capsys):
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
+    mocker.patch("builtins.input", side_effect=["i"])
+    # 事前に入力をクリアしておきたい
+    capsys.readouterr()
+
+    _game_master.wait_for_next_turn()
+    captured = capsys.readouterr()
+    expected = """\
+ステージ: test
+ターン: 0
+enemy_01: HP ?/?, MP ?/?
+ally_01: HP 10/10, MP 10/10
+ally_02: HP 10/10, MP 10/10
+"""
+
+    assert captured.out == expected
 
 
 def test_wait_for_next_turn_invalid_command(mocker, capsys):
-    game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
-                             "coding_yusha/assets/test/ally_02.py")
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
     mocker.patch("builtins.input", side_effect=["invalid_command", "w"])
     # 事前に入力をクリアしておきたい
     capsys.readouterr()
 
-    game_master.wait_for_next_turn()
+    _game_master.wait_for_next_turn()
     captured = capsys.readouterr()
-    expected = "有効なコマンドは ['w'] です\n"
+    expected = "有効なコマンドは ['i', 'w'] です\n"
 
     assert captured.out == expected
-    assert game_master.is_buttle_end
+    assert _game_master.is_buttle_end
