@@ -39,6 +39,7 @@ class GameMaster():
         print(f"ステージ: {self.stage_info['stage']}")
         print(f"敵: {[enemy.name for enemy in self.field.enemies]}")
         print(f"味方: {[ally.name for ally in self.field.allies]}")
+        print()
 
     def wait_for_next_turn(self):
         valid_commands = ["i", "w"]
@@ -62,4 +63,5 @@ class GameMaster():
                 print(f"{enemy.name}: HP ?/?, MP ?/?")
         for ally in self.field.allies:
             print(f"{ally.name}: HP {ally.current_hp}/{ally.max_hp}, "
-                  "MP {ally.current_mp}/{ally.max_mp}")
+                  f"MP {ally.current_mp}/{ally.max_mp}")
+        print()

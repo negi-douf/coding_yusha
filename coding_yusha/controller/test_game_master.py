@@ -64,6 +64,7 @@ def test_print_stage_info(game_master, capsys):
 ステージ: test
 敵: ['enemy_01']
 味方: ['ally_01', 'ally_02']
+
 """
 
     assert captured.out == expected
@@ -95,6 +96,7 @@ def test_wait_for_next_turn_print_info(mocker, capsys):
 enemy_01: HP ?/?, MP ?/?
 ally_01: HP 10/10, MP 10/10
 ally_02: HP 10/10, MP 10/10
+
 """
 
     assert captured.out == expected
