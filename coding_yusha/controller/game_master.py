@@ -21,7 +21,11 @@ class GameMaster():
         allies = generate_unit.generate_allies(self.ally_file_map)
         enemies = generate_unit.generate_enemies(self.enemy_file_map)
         self.field = Field(allies, enemies)
+
+    def start(self):
         self.print_stage_info()
+        while not self.is_buttle_end:
+            self.wait_for_next_turn()
 
     def decide_action_order(self) -> [Unit]:
         units = self.field.allies + self.field.enemies
