@@ -12,6 +12,7 @@ autopep8 = "2.0.*"
 flake8 = "6.1.*"
 isort = "5.13.*"
 pyyaml = "6.0.*"
+pytest-mock = "3.12.*"
 
 
 [build-system]

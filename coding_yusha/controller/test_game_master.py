@@ -69,10 +69,22 @@ def test_print_stage_info(game_master, capsys):
     assert captured.out == expected
 
 
-def test_wait_for_next_turn_withdraw(game_master, monkeypatch):
-    monkeypatch.setattr("builtins.input", lambda _: "w")
+def test_wait_for_next_turn_withdraw(game_master, mocker):
+    mocker.patch("builtins.input", side_effect=["w"])
 
     game_master.wait_for_next_turn()
 
+    assert game_master.is_buttle_end
+    assert game_master.turn_num == 0
+
+
+def test_wait_for_next_turn_invalid_command(game_master, mocker, capsys):
+    mocker.patch("builtins.input", side_effect=["invalid_command", "w"])
+
+    game_master.wait_for_next_turn()
+    captured = capsys.readouterr()
+    expected = "有効なコマンドは ['w'] です\n"
+
+    assert captured.out == expected
     assert game_master.is_buttle_end
     assert game_master.turn_num == 0
