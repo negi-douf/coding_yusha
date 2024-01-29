@@ -150,3 +150,22 @@ def test_print_result_victory(capsys):
 """
 
     assert captured.out == expected
+
+
+def test_print_result_lose(capsys):
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
+    _game_master.field.allies[0].current_hp = 0
+    _game_master.field.allies[1].current_hp = 0
+    # 事前に入力をクリアしておきたい
+    capsys.readouterr()
+
+    _game_master.print_result()
+    captured = capsys.readouterr()
+
+    expected = """\
+敗北した...
+経過ターン数: 0
+"""
+
+    assert captured.out == expected
