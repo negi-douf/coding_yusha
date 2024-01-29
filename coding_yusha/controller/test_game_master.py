@@ -115,3 +115,20 @@ def test_wait_for_next_turn_invalid_command(mocker, capsys):
 
     assert captured.out == expected
     assert _game_master.is_buttle_end
+
+
+def test_print_result_withdraw(mocker, capsys):
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
+    mocker.patch("builtins.input", side_effect=["w"])
+    # 事前に入力をクリアしておきたい
+    capsys.readouterr()
+
+    _game_master.print_result()
+    captured = capsys.readouterr()
+    expected = """\
+撤退した
+経過ターン数: 0
+"""
+
+    assert captured.out == expected

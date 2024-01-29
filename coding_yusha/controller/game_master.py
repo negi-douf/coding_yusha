@@ -26,6 +26,7 @@ class GameMaster():
         self.print_stage_info()
         while not self.is_buttle_end:
             self.wait_for_next_turn()
+        self.print_result()
 
     def decide_action_order(self) -> [Unit]:
         units = self.field.allies + self.field.enemies
@@ -65,3 +66,12 @@ class GameMaster():
             print(f"{ally.name}: HP {ally.current_hp}/{ally.max_hp}, "
                   f"MP {ally.current_mp}/{ally.max_mp}")
         print()
+
+    def print_result(self):
+        if all([ally.is_dead() for ally in self.field.allies]):
+            print("敗北した...")
+        elif all([enemy.is_dead() for enemy in self.field.enemies]):
+            print("勝利した！")
+        else:
+            print("撤退した")
+        print(f"経過ターン数: {self.turn_num}")
