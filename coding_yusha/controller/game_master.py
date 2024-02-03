@@ -92,3 +92,18 @@ class GameMaster():
             replica.agi = ally.agi
             ally_replicas.append(replica)
         return ally_replicas
+
+    def get_enemies(self, all_=False):
+        enemy_replicas = []
+        for enemy in self.field.enemies:
+            if enemy.is_dead() and not all_:
+                continue
+            replica = Unit()
+            # nameと is_dead() だけ使えるようにしたい
+            replica.name = enemy.name
+            if enemy.is_dead():
+                replica.is_dead = lambda: True
+            else:
+                replica.is_dead = lambda: False
+            enemy_replicas.append(replica)
+        return enemy_replicas

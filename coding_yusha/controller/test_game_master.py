@@ -181,3 +181,31 @@ def test_get_allies_status(game_master):
 
     assert allies[0]._equals(expected_ally_01)
     assert allies[1]._equals(expected_ally_02)
+
+
+def test_get_enemies(game_master):
+    expected_enemy_01 = Unit()
+    expected_enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01.yml")
+
+    enemies = game_master.get_enemies()
+
+    assert enemies[0].name == expected_enemy_01.name
+    assert not enemies[0].is_dead()
+
+
+def test_get_enemies_only_living():
+    _game_master = GameMaster("test/an_enemy_is_dead",
+                              "coding_yusha/assets/test/an_enemy_is_dead/ally_01.py")
+
+    enemies = _game_master.get_enemies()
+
+    assert len(enemies) == 1
+
+
+def test_get_enemies_all():
+    _game_master = GameMaster("test/an_enemy_is_dead",
+                              "coding_yusha/assets/test/an_enemy_is_dead/ally_01.py")
+
+    enemies = _game_master.get_enemies(all_=True)
+
+    assert len(enemies) == 2
