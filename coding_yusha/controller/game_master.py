@@ -75,3 +75,20 @@ class GameMaster():
         else:
             print("撤退した")
         print(f"経過ターン数: {self.turn_num}")
+
+    def get_allies_status(self):
+        ally_replicas = []
+        for ally in self.field.allies:
+            replica = Unit()
+            replica.name = ally.name
+            replica.max_hp = ally.max_hp
+            replica.current_hp = ally.current_hp
+            replica.max_mp = ally.max_mp
+            replica.current_mp = ally.current_mp
+            replica.pa = ally.pa
+            replica.pd = ally.pd
+            replica.ma = ally.ma
+            replica.md = ally.md
+            replica.agi = ally.agi
+            ally_replicas.append(replica)
+        return ally_replicas
