@@ -169,3 +169,15 @@ def test_print_result_lose(capsys):
 """
 
     assert captured.out == expected
+
+
+def test_get_allies_status(game_master):
+    expected_ally_01 = Unit()
+    expected_ally_01.attach_parameter("coding_yusha/assets/test/ally_01.yml")
+    expected_ally_02 = Unit()
+    expected_ally_02.attach_parameter("coding_yusha/assets/test/ally_02.yml")
+
+    allies = game_master.get_allies_status()
+
+    assert allies[0]._equals(expected_ally_01)
+    assert allies[1]._equals(expected_ally_02)
