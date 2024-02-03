@@ -96,6 +96,8 @@ class GameMaster():
     def get_enemies(self):
         enemy_replicas = []
         for enemy in self.field.enemies:
+            if enemy.is_dead():
+                continue
             replica = Unit()
             # nameと is_dead() だけ使えるようにしたい
             replica.name = enemy.name

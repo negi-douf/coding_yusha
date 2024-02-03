@@ -191,3 +191,12 @@ def test_get_enemies(game_master):
 
     assert enemies[0].name == expected_enemy_01.name
     assert not enemies[0].is_dead()
+
+
+def test_get_enemies_only_living():
+    _game_master = GameMaster("test/an_enemy_is_dead",
+                              "coding_yusha/assets/test/an_enemy_is_dead/ally_01.py")
+
+    enemies = _game_master.get_enemies()
+
+    assert len(enemies) == 1
