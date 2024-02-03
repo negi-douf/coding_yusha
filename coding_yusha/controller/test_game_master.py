@@ -209,3 +209,4 @@ def test_get_enemies_all():
     enemies = _game_master.get_enemies(all_=True)
 
     assert len(enemies) == 2
+    assert enemies[1].is_dead()
