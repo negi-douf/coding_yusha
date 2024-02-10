@@ -70,6 +70,18 @@ def test_print_stage_info(game_master, capsys):
     assert captured.out == expected
 
 
+def test_reset_units():
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
+    _game_master.field.allies[0].is_guarding = True
+    _game_master.field.enemies[0].is_guarding = True
+
+    _game_master.reset_units()
+
+    assert not _game_master.field.allies[0].is_guarding
+    assert not _game_master.field.enemies[0].is_guarding
+
+
 def test_wait_for_next_turn_withdraw(mocker):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")

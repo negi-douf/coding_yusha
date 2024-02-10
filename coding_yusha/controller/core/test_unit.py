@@ -31,6 +31,13 @@ def test_is_dead(ally_01):
     assert ally_01.is_dead()
 
 
+def test_reset_status(ally_01):
+    ally_01.is_guarding = True
+    ally_01.reset_status()
+
+    assert not ally_01.is_guarding
+
+
 def test_attack(ally_01):
     result = ally_01.attack("target")
     expected_event = Event("ally_01", "target", "attack")

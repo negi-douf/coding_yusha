@@ -38,3 +38,33 @@ def test_proceed_attack(ally_01, enemy_01):
     result_field = proceed_event(event, field)
 
     assert result_field._equals(expected_field)
+
+
+def test_proceed_attack_guarded(ally_01, enemy_01):
+    allies = [ally_01]
+    enemies = [enemy_01]
+    field = Field(allies, enemies)
+    guard_event = Event('enemy_01', 'enemy_01', 'guard')
+    attack_event = Event('ally_01', 'enemy_01', 'attack')
+
+    expected_allies = [ally_01]
+    expected_enemy_01 = Unit()
+    expected_enemy_01.attach_parameter("coding_yusha/assets/test/enemy_01_guarded.yml")
+    expected_enemies = [expected_enemy_01]
+    expected_field = Field(expected_allies, expected_enemies)
+
+    guarded_field = proceed_event(guard_event, field)
+    result_field = proceed_event(attack_event, guarded_field)
+
+    assert result_field._equals(expected_field)
+
+
+def test_proceed_guard_event(ally_01, enemy_01):
+    allies = [ally_01]
+    enemies = [enemy_01]
+    field = Field(allies, enemies)
+    event = Event('enemy_01', 'enemy_01', 'guard')
+
+    result_field = proceed_event(event, field)
+
+    assert result_field.enemies[0].is_guarding
