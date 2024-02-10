@@ -28,19 +28,19 @@ class GameMaster():
             self.wait_for_next_turn()
         self.print_result()
 
-    def decide_action_order(self) -> [Unit]:
-        units = self.field.allies + self.field.enemies
-        # 同じ素早さのユニットはランダムに並べたいため、都度シャッフルする
-        shuffle(units)
-        units_ordered = sorted(units, key=lambda unit: unit.agi, reverse=True)
-        return units_ordered
-
     def print_stage_info(self):
         print("【戦闘開始】")
         print(f"ステージ: {self.stage_info['stage']}")
         print(f"敵: {[enemy.name for enemy in self.field.enemies]}")
         print(f"味方: {[ally.name for ally in self.field.allies]}")
         print()
+
+    def decide_action_order(self) -> [Unit]:
+        units = self.field.allies + self.field.enemies
+        # 同じ素早さのユニットはランダムに並べたいため、都度シャッフルする
+        shuffle(units)
+        units_ordered = sorted(units, key=lambda unit: unit.agi, reverse=True)
+        return units_ordered
 
     def wait_for_next_turn(self):
         valid_commands = ["i", "w"]
