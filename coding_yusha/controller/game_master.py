@@ -43,6 +43,7 @@ class GameMaster():
         return units_ordered
 
     def wait_for_next_turn(self):
+        self.reset_units()
         valid_commands = ["i", "w"]
         # buttle, info, withdraw, help
         command = input("> ")
@@ -53,6 +54,12 @@ class GameMaster():
             self.print_info()
         if command == "w":
             self.is_buttle_end = True
+
+    def reset_units(self):
+        for ally in self.field.allies:
+            ally.reset_status()
+        for enemy in self.field.enemies:
+            enemy.reset_status()
 
     def print_info(self):
         print(f"ステージ: {self.stage_info['stage']}")
