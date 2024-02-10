@@ -14,6 +14,7 @@ class Unit():
     ma: int  # 魔法攻撃力
     md: int  # 魔法防御力
     agi: int  # 素早さ
+    is_guarding: bool  # ガード中かどうか
 
     def attach_parameter(self, yml_file: str):
         try:
@@ -29,6 +30,7 @@ class Unit():
             self.ma = body["unit"]["ma"]
             self.md = body["unit"]["md"]
             self.agi = body["unit"]["agi"]
+            self.is_guarding = False
         except FileNotFoundError as e:
             raise FileNotFoundError(f"ymlファイルが見つかりません: {yml_file}") from e
         except KeyError as e:
