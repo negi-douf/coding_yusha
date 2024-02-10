@@ -39,6 +39,9 @@ class Unit():
     def is_dead(self) -> bool:
         return self.current_hp <= 0
 
+    def reset_status(self):
+        self.is_guarding = False
+
     def attack(self, target: str):
         """
 
