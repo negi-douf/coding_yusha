@@ -17,6 +17,7 @@ class Unit():
     is_guarding: bool  # ガード中かどうか
 
     def attach_parameter(self, yml_file: str):
+        # NOTE: ymlからしかパラメータを設定できないのは不便かもしれない
         try:
             with open(yml_file, "r", encoding="utf-8") as f:
                 body = safe_load(f)

@@ -75,6 +75,7 @@ def _get_unit(name: str, field: Field) -> Unit:
     for enemy in field.enemies:
         if enemy.name == name:
             return enemy
+    # TODO: 専用の例外クラスを作る
     raise Exception(f"{name}と一致するUnitが見つかりません")
 
 
