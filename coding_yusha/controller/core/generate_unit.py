@@ -2,6 +2,7 @@ from coding_yusha.controller.core.unit import Unit
 
 
 def generate_allies(ally_file_map: dict[str, str]) -> list[Unit]:
+    # NOTE: mapから作るのが最適なのだろうか
     allies = []
     for ally in ally_file_map:
         _ally = generate_unit_from_py(ally_file_map[ally]["py"], ally_file_map[ally]["yml"])
