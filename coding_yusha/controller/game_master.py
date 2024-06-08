@@ -85,6 +85,7 @@ class GameMaster():
 
     def get_allies_status(self):
         ally_replicas = []
+        # NOTE: Unitに clone() みたいなメソッドを作ったほうがいいかも
         for ally in self.field.allies:
             replica = Unit()
             replica.name = ally.name
@@ -101,6 +102,12 @@ class GameMaster():
         return ally_replicas
 
     def get_enemies(self, all_=False):
+        """Get enemies' replicas
+        戦闘中の敵の状態を返す
+
+        Args:
+            all_ (bool, optional): 死んでいる敵も含めるかどうか. Defaults to False.
+        """
         enemy_replicas = []
         for enemy in self.field.enemies:
             if enemy.is_dead() and not all_:
