@@ -1,6 +1,6 @@
 stage: "hello_world"
 dir: "coding_yusha/assets/hello_world"
 allies:
-  - ally_warrior.yml
+  - warrior.yml
 enemies:
-  - enemy_nop.yml
+  - nop.yml
