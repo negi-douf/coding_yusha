@@ -82,6 +82,27 @@ def test_reset_units():
     assert not _game_master.field.enemies[0].is_guarding
 
 
+def test_wait_for_next_turn_battle(mocker, capsys):
+    # テスト用のステージをもうひとつ作ったほうがいいかも
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
+    mocker.patch("builtins.input", side_effect=["b"])
+    # 事前に入力をクリアしておきたい
+    capsys.readouterr()
+
+    _game_master.wait_for_next_turn()
+    captured = capsys.readouterr()
+    expected = """\
+ターン: 0
+attacker の攻撃！
+nop に 5 のダメージ！
+nopはじっとしている
+
+"""
+
+    assert captured.out == expected
+
+
 def test_wait_for_next_turn_withdraw(mocker):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
@@ -123,7 +144,7 @@ def test_wait_for_next_turn_invalid_command(mocker, capsys):
 
     _game_master.wait_for_next_turn()
     captured = capsys.readouterr()
-    expected = "有効なコマンドは ['i', 'w'] です\n"
+    expected = "有効なコマンドは ['b', 'i', 'w'] です\n"
 
     assert captured.out == expected
     assert _game_master.is_buttle_end

@@ -44,12 +44,24 @@ class GameMaster():
 
     def wait_for_next_turn(self):
         self.reset_units()
-        valid_commands = ["i", "w"]
+        valid_commands = ["b", "i", "w"]
         # buttle, info, withdraw, help
         command = input("> ")
         while command not in valid_commands:
             print(f"有効なコマンドは {valid_commands} です")
             command = input("> ")
+        if command == "b":
+            # 戦闘
+            # 必要な情報の案内 (ターン数だけでいいかな)
+            # 行動順の決定
+            # それに基づいて mainを呼んでいく
+            # mainからは eventを受け取る
+            # eventを実行
+            print(f"ターン: {self.turn_num}")
+            print("attacker の攻撃！")
+            print("nop に 5 のダメージ！")
+            print("nopはじっとしている")
+            print()
         if command == "i":
             self.print_info()
         if command == "w":
