@@ -2,7 +2,7 @@ from coding_yusha.controller.core.unit import Unit
 
 
 class Warrior(Unit):
-    def main(self):
+    def run(self):
         # implement your code here!
         pass
 

@@ -69,7 +69,7 @@ class Unit():
         """
         return Event(self.name, self.name, "guard")
 
-    def main(self):
+    def run(self):
         pass
 
     def _equals(self, other: "Unit") -> bool:
