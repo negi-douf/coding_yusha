@@ -2,6 +2,7 @@ from random import shuffle
 
 from coding_yusha.controller.core import generate_unit, parse_assets
 from coding_yusha.controller.core.field import Field
+from coding_yusha.controller.core.proceed_event import proceed_event
 from coding_yusha.controller.core.unit import Unit
 
 
@@ -35,7 +36,7 @@ class GameMaster():
         print(f"味方: {[ally.name for ally in self.field.allies]}")
         print()
 
-    def decide_action_order(self) -> [Unit]:
+    def decide_action_order(self) -> list[Unit]:
         units = self.field.allies + self.field.enemies
         # 同じ素早さのユニットはランダムに並べたいため、都度シャッフルする
         shuffle(units)
@@ -52,12 +53,16 @@ class GameMaster():
             command = input("> ")
         if command == "b":
             # 戦闘
-            # 必要な情報の案内 (ターン数だけでいいかな)
-            # 行動順の決定
-            # それに基づいて mainを呼んでいく
-            # mainからは eventを受け取る
-            # eventを実行
             print(f"ターン: {self.turn_num}")
+            units_ordered = self.decide_action_order()
+            events = []
+            for unit in units_ordered:
+                if not unit.is_dead():
+                    event = unit.attack("nop")
+                    events.append(event)
+            # eventを実行
+            for event in events:
+                proceed_event(event, self.field)
             print("attacker の攻撃！")
             print("nop に 5 のダメージ！")
             print("nopはじっとしている")

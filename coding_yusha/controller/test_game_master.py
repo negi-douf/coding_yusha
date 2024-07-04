@@ -84,8 +84,7 @@ def test_reset_units():
 
 def test_wait_for_next_turn_battle(mocker, capsys):
     # テスト用のステージをもうひとつ作ったほうがいいかも
-    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
-                              "coding_yusha/assets/test/ally_02.py")
+    _game_master = GameMaster("test/battle", "coding_yusha/assets/test/battle/attacker.py")
     mocker.patch("builtins.input", side_effect=["b"])
     # 事前に入力をクリアしておきたい
     capsys.readouterr()
