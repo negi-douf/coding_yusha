@@ -69,8 +69,14 @@ class Unit():
         """
         return Event(self.name, self.name, "guard")
 
+    def nop(self):
+        """
+        何もしない
+        """
+        return Event(self.name, self.name, "nop")
+
     def run(self):
-        pass
+        return self.nop()
 
     def _equals(self, other: "Unit") -> bool:
         return (
