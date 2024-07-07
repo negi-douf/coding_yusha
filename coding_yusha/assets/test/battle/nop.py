@@ -1,10 +1,10 @@
 from coding_yusha.controller.core.unit import Unit
 
 
-class Enemy01(Unit):
-    def main():
-        pass
+class Nop(Unit):
+    def main(self):
+        return self.nop()
 
 
 def main():
-    return Enemy01()
+    return Nop()
