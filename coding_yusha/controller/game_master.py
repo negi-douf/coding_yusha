@@ -58,13 +58,11 @@ class GameMaster():
             events = []
             for unit in units_ordered:
                 if not unit.is_dead():
-                    event = unit.attack("nop")
+                    event = unit.main()
                     events.append(event)
             # eventを実行
             for event in events:
                 proceed_event(event, self.field)
-            print("attacker の攻撃！")
-            print("nop に 5 のダメージ！")
             print("nopはじっとしている")
             print()
         if command == "i":

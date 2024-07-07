@@ -39,8 +39,10 @@ def _proceed_attack(event: Event, field: Field) -> Field:
     """
     sender = _get_unit(event.sender, field)
     target = _get_unit(event.target, field)
+    print(f"{sender.name} の攻撃！")
     damage = _calculate_damage(sender, target)
     target.current_hp -= damage
+    print(f"{target.name} に {damage} のダメージ！")
     return field
 
 
