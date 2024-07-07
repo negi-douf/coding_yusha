@@ -20,6 +20,8 @@ def proceed_event(event: Event, field: Field) -> Field:
     #     return _proceed_special_move(event, field)
     elif event.move == "guard":
         return _proceed_guard(event, field)
+    elif event.move == "nop":
+        return field
     else:
         raise Exception("不正なイベントです。処理可能event.moveは\"attack\" \"special_move\" \"guard\"です。")
 
