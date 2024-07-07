@@ -75,7 +75,7 @@ class Unit():
         """
         return Event(self.name, self.name, "nop")
 
-    def run(self):
+    def main(self):
         return self.nop()
 
     def _equals(self, other: "Unit") -> bool:
