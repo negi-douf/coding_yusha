@@ -63,7 +63,6 @@ class GameMaster():
             # eventを実行
             for event in events:
                 proceed_event(event, self.field)
-            print("nopはじっとしている")
             print()
         if command == "i":
             self.print_info()

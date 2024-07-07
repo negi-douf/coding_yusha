@@ -21,7 +21,7 @@ def proceed_event(event: Event, field: Field) -> Field:
     elif event.move == "guard":
         return _proceed_guard(event, field)
     elif event.move == "nop":
-        return field
+        return _proceed_nop(event, field)
     else:
         raise Exception("不正なイベントです。処理可能event.moveは\"attack\" \"special_move\" \"guard\"です。")
 
@@ -59,6 +59,21 @@ def _proceed_guard(event: Event, field: Field) -> Field:
     """
     target = _get_unit(event.target, field)
     target.is_guarding = True
+    return field
+
+
+def _proceed_nop(event: Event, field: Field) -> Field:
+    """
+    何もしないイベントを処理する
+
+    Args:
+        event (Event): 何もしないイベント
+        field (Field): フィールド
+
+    Returns:
+        Field: 処理後のフィールド
+    """
+    print(f"{event.sender} はじっとしている")
     return field
 
 

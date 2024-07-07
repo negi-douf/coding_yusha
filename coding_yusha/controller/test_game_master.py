@@ -95,7 +95,7 @@ def test_wait_for_next_turn_battle(mocker, capsys):
 ターン: 0
 attacker の攻撃！
 nop に 5 のダメージ！
-nopはじっとしている
+nop はじっとしている
 
 """
 
