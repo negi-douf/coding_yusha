@@ -12,7 +12,9 @@ class GameMaster():
     ally_file_map: dict
     enemy_file_map: dict
     turn_num: int = 0
-    is_buttle_end: bool = False
+    won = False
+    lost = False
+    withdraw = False
 
     def __init__(self, stage: str, *ally_py_files: str):
         self.stage_info = parse_assets.load_stage_info(stage)
@@ -25,7 +27,7 @@ class GameMaster():
 
     def start(self):
         self.print_stage_info()
-        while not self.is_buttle_end:
+        while not self.is_battle_end():
             self.wait_for_next_turn()
         self.print_result()
 
@@ -35,6 +37,15 @@ class GameMaster():
         print(f"敵: {[enemy.name for enemy in self.field.enemies]}")
         print(f"味方: {[ally.name for ally in self.field.allies]}")
         print()
+
+    def is_battle_end(self) -> bool:
+        return self.withdraw or self.lost or self.won
+
+    def update_battle_status(self):
+        if all([ally.is_dead() for ally in self.field.allies]):
+            self.lost = True
+        elif all([enemy.is_dead() for enemy in self.field.enemies]):
+            self.won = True
 
     def decide_action_order(self) -> list[Unit]:
         units = self.field.allies + self.field.enemies
@@ -46,7 +57,7 @@ class GameMaster():
     def wait_for_next_turn(self):
         self.reset_units()
         valid_commands = ["b", "i", "w"]
-        # buttle, info, withdraw, help
+        # battle, info, withdraw, help
         command = input("> ")
         while command not in valid_commands:
             print(f"有効なコマンドは {valid_commands} です")
@@ -64,10 +75,12 @@ class GameMaster():
             for event in events:
                 proceed_event(event, self.field)
             print()
-        if command == "i":
+            self.turn_num += 1
+        elif command == "i":
             self.print_info()
-        if command == "w":
-            self.is_buttle_end = True
+        elif command == "w":
+            self.withdraw = True
+        self.update_battle_status()
 
     def reset_units(self):
         for ally in self.field.allies:
@@ -89,9 +102,9 @@ class GameMaster():
         print()
 
     def print_result(self):
-        if all([ally.is_dead() for ally in self.field.allies]):
+        if self.lost:
             print("敗北した...")
-        elif all([enemy.is_dead() for enemy in self.field.enemies]):
+        elif self.won:
             print("勝利した！")
         else:
             print("撤退した")

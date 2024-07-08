@@ -102,6 +102,26 @@ nop はじっとしている
     assert captured.out == expected
 
 
+def test_wait_for_next_turn_battle_defeat(mocker, capsys):
+    _game_master = GameMaster("test/battle", "coding_yusha/assets/test/battle/attacker.py")
+    mocker.patch("builtins.input", side_effect=["b", "b"])
+    _game_master.wait_for_next_turn()
+    # 事前に入力をクリアしておきたい
+    capsys.readouterr()
+
+    _game_master.wait_for_next_turn()
+    captured = capsys.readouterr()
+    expected = """\
+ターン: 1
+attacker の攻撃！
+nop に 5 のダメージ！
+nop は倒れた
+
+"""
+
+    assert captured.out == expected
+
+
 def test_wait_for_next_turn_withdraw(mocker):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
@@ -109,7 +129,7 @@ def test_wait_for_next_turn_withdraw(mocker):
 
     _game_master.wait_for_next_turn()
 
-    assert _game_master.is_buttle_end
+    assert _game_master.withdraw
     assert _game_master.turn_num == 0
 
 
@@ -146,7 +166,6 @@ def test_wait_for_next_turn_invalid_command(mocker, capsys):
     expected = "有効なコマンドは ['b', 'i', 'w'] です\n"
 
     assert captured.out == expected
-    assert _game_master.is_buttle_end
 
 
 def test_print_result_withdraw(mocker, capsys):
@@ -166,10 +185,11 @@ def test_print_result_withdraw(mocker, capsys):
     assert captured.out == expected
 
 
-def test_print_result_victory(capsys):
+def test_print_result_win(capsys):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
     _game_master.field.enemies[0].current_hp = 0
+    _game_master.won = True
     # 事前に入力をクリアしておきたい
     capsys.readouterr()
 
@@ -189,6 +209,7 @@ def test_print_result_lose(capsys):
                               "coding_yusha/assets/test/ally_02.py")
     _game_master.field.allies[0].current_hp = 0
     _game_master.field.allies[1].current_hp = 0
+    _game_master.lost = True
     # 事前に入力をクリアしておきたい
     capsys.readouterr()
 
