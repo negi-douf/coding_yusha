@@ -39,7 +39,7 @@ class GameMaster():
         print()
 
     def is_battle_end(self) -> bool:
-        return self.withdraw or self.lost or self.won
+        return self.withdraw or self.won or self.lost
 
     def update_battle_status(self):
         if all([ally.is_dead() for ally in self.field.allies]):

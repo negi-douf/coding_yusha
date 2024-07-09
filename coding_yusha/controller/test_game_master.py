@@ -70,6 +70,32 @@ def test_print_stage_info(game_master, capsys):
     assert captured.out == expected
 
 
+def test_is_battle_end_withdraw(game_master):
+    assert not game_master.is_battle_end()
+
+    game_master.withdraw = True
+
+    assert game_master.is_battle_end()
+
+
+def test_is_battle_end_won(game_master):
+    assert not game_master.is_battle_end()
+
+    game_master.lost = False
+    game_master.won = True
+
+    assert game_master.is_battle_end()
+
+
+def test_is_battle_end_lost(game_master):
+    assert not game_master.is_battle_end()
+
+    game_master.withdraw = False
+    game_master.lost = True
+
+    assert game_master.is_battle_end()
+
+
 def test_reset_units():
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
