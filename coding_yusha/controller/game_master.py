@@ -68,7 +68,6 @@ class GameMaster():
             self.print_info()
         elif command == "w":
             self.withdraw = True
-        self.update_battle_status()
 
     def reset_units(self):
         for ally in self.field.allies:
@@ -87,6 +86,7 @@ class GameMaster():
         for event in events:
             proceed_event(event, self.field)
         print()
+        self.update_battle_status()
         self.turn_num += 1
 
     def print_info(self):
