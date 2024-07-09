@@ -63,19 +63,7 @@ class GameMaster():
             print(f"有効なコマンドは {valid_commands} です")
             command = input("> ")
         if command == "b":
-            # 戦闘
-            print(f"ターン: {self.turn_num}")
-            units_ordered = self.decide_action_order()
-            events = []
-            for unit in units_ordered:
-                if not unit.is_dead():
-                    event = unit.main()
-                    events.append(event)
-            # eventを実行
-            for event in events:
-                proceed_event(event, self.field)
-            print()
-            self.turn_num += 1
+            self.proceed_battle()
         elif command == "i":
             self.print_info()
         elif command == "w":
@@ -87,6 +75,19 @@ class GameMaster():
             ally.reset_status()
         for enemy in self.field.enemies:
             enemy.reset_status()
+
+    def proceed_battle(self):
+        print(f"ターン: {self.turn_num}")
+        units_ordered = self.decide_action_order()
+        events = []
+        for unit in units_ordered:
+            if not unit.is_dead():
+                event = unit.main()
+                events.append(event)
+        for event in events:
+            proceed_event(event, self.field)
+        print()
+        self.turn_num += 1
 
     def print_info(self):
         print(f"ステージ: {self.stage_info['stage']}")
