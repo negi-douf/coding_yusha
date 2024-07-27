@@ -112,6 +112,15 @@ def test_update_battle_status_won():
     assert _game_master.won
 
 
+def test_update_battle_status_lost():
+    _game_master = GameMaster("test/allies_dead",
+                              "coding_yusha/assets/test/allies_dead/ally_dead.py")
+
+    _game_master.update_battle_status()
+
+    assert _game_master.lost
+
+
 def test_reset_units():
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
