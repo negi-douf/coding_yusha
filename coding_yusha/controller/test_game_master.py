@@ -96,6 +96,13 @@ def test_is_battle_end_lost(game_master):
     assert game_master.is_battle_end()
 
 
+def test_update_battle_status_neutral(game_master):
+    game_master.update_battle_status()
+
+    assert not game_master.won
+    assert not game_master.lost
+
+
 def test_reset_units():
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
