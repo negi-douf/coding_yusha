@@ -103,6 +103,15 @@ def test_update_battle_status_neutral(game_master):
     assert not game_master.lost
 
 
+def test_update_battle_status_won():
+    _game_master = GameMaster("test/enemies_dead",
+                              "coding_yusha/assets/test/enemies_dead/ally_01.py")
+
+    _game_master.update_battle_status()
+
+    assert _game_master.won
+
+
 def test_reset_units():
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
