@@ -48,14 +48,6 @@ def test_init(game_master):
     assert game_master.field._equals(expected_field)
 
 
-def test_decide_action_order(game_master):
-    units_ordered = game_master.decide_action_order()
-
-    # 素早さが同じ場合はランダムに並ぶ
-    # ally_01と enemy_01 の素早さは同じであるため、末尾だけを確認する
-    assert units_ordered[2].name == "ally_02"
-
-
 def test_print_stage_info(game_master, capsys):
     game_master.print_stage_info()
     captured = capsys.readouterr()
@@ -121,16 +113,12 @@ def test_update_battle_status_lost():
     assert _game_master.lost
 
 
-def test_reset_units():
-    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
-                              "coding_yusha/assets/test/ally_02.py")
-    _game_master.field.allies[0].is_guarding = True
-    _game_master.field.enemies[0].is_guarding = True
+def test_decide_action_order(game_master):
+    units_ordered = game_master.decide_action_order()
 
-    _game_master.reset_units()
-
-    assert not _game_master.field.allies[0].is_guarding
-    assert not _game_master.field.enemies[0].is_guarding
+    # 素早さが同じ場合はランダムに並ぶ
+    # ally_01と enemy_01 の素早さは同じであるため、末尾だけを確認する
+    assert units_ordered[2].name == "ally_02"
 
 
 def test_wait_for_next_turn_battle(mocker, capsys):
@@ -217,6 +205,18 @@ def test_wait_for_next_turn_invalid_command(mocker, capsys):
     expected = "有効なコマンドは ['b', 'i', 'w'] です\n"
 
     assert captured.out == expected
+
+
+def test_reset_units():
+    _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
+                              "coding_yusha/assets/test/ally_02.py")
+    _game_master.field.allies[0].is_guarding = True
+    _game_master.field.enemies[0].is_guarding = True
+
+    _game_master.reset_units()
+
+    assert not _game_master.field.allies[0].is_guarding
+    assert not _game_master.field.enemies[0].is_guarding
 
 
 def test_print_result_withdraw(mocker, capsys):
