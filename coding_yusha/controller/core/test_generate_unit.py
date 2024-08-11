@@ -22,7 +22,7 @@ def test_generate_unit_from_py_main(capsys):
         "coding_yusha/assets/test/ally_01.py",
         "coding_yusha/assets/test/ally_01.yml")
 
-    ally_01.main()
+    ally_01.run()
 
     captured = capsys.readouterr()
     assert captured.out == "Ally01\n"

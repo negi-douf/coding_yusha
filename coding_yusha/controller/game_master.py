@@ -81,7 +81,7 @@ class GameMaster():
         events = []
         for unit in units_ordered:
             if not unit.is_dead():
-                event = unit.main()
+                event = unit.run()
                 events.append(event)
         for event in events:
             proceed_event(event, self.field)

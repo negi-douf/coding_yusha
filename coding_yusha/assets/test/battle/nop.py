@@ -2,7 +2,7 @@ from coding_yusha.controller.core.unit import Unit
 
 
 class Nop(Unit):
-    def main(self):
+    def run(self):
         return self.nop()
 
 
