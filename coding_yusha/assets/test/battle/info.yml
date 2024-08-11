@@ -1,0 +1,6 @@
+stage: "battle"
+dir: "coding_yusha/assets/test/battle"
+allies:
+  - attacker.yml
+enemies:
+  - nop.yml

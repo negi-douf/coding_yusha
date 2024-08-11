@@ -20,6 +20,8 @@ def proceed_event(event: Event, field: Field) -> Field:
     #     return _proceed_special_move(event, field)
     elif event.move == "guard":
         return _proceed_guard(event, field)
+    elif event.move == "nop":
+        return _proceed_nop(event, field)
     else:
         raise Exception("不正なイベントです。処理可能event.moveは\"attack\" \"special_move\" \"guard\"です。")
 
@@ -37,8 +39,15 @@ def _proceed_attack(event: Event, field: Field) -> Field:
     """
     sender = _get_unit(event.sender, field)
     target = _get_unit(event.target, field)
+    if sender.is_dead():
+        return field
+    print(f"{sender.name} の攻撃！")
     damage = _calculate_damage(sender, target)
     target.current_hp -= damage
+    print(f"{target.name} に {damage} のダメージ！")
+    if target.current_hp <= 0:
+        target.current_hp = 0
+        print(f"{target.name} は倒れた")
     return field
 
 
@@ -55,6 +64,23 @@ def _proceed_guard(event: Event, field: Field) -> Field:
     """
     target = _get_unit(event.target, field)
     target.is_guarding = True
+    return field
+
+
+def _proceed_nop(event: Event, field: Field) -> Field:
+    """
+    何もしないイベントを処理する
+
+    Args:
+        event (Event): 何もしないイベント
+        field (Field): フィールド
+
+    Returns:
+        Field: 処理後のフィールド
+    """
+    sender = _get_unit(event.sender, field)
+    if not sender.is_dead():
+        print(f"{sender.name} はじっとしている")
     return field
 
 

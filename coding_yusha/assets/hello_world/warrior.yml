@@ -1,0 +1,11 @@
+unit:
+  name: "warrior"
+  max_hp: 10
+  current_hp: 10
+  max_mp: 0
+  current_mp: 0
+  pa: 10
+  pd: 10
+  ma: 0
+  md: 5
+  agi: 10

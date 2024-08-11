@@ -1,0 +1,11 @@
+unit:
+  name: "attacker"
+  max_hp: 10
+  current_hp: 10
+  max_mp: 10
+  current_mp: 10
+  pa: 10
+  pd: 10
+  ma: 10
+  md: 10
+  agi: 10

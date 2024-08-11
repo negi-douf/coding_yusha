@@ -44,24 +44,24 @@ def test_init_exception_duplicate_unit_name(ally_01, enemy_01):
     assert str(e.value) == "ユニットの名前が重複しています。"
 
 
-# def test_is_buttle_end_enemies_dead(field_01):
-#     assert not field_01.is_buttle_end()
+# def test_is_battle_end_enemies_dead(field_01):
+#     assert not field_01.is_battle_end()
 #     field_01.enemies[0].current_hp = 0
 
-#     assert field_01.is_buttle_end()
+#     assert field_01.is_battle_end()
 
 
-# def test_is_buttle_end_allies_dead(ally_01, enemy_01):
+# def test_is_battle_end_allies_dead(ally_01, enemy_01):
 #     ally_02 = Unit()
 #     ally_02.attach_parameter("coding_yusha/assets/test/ally_02.yml")
 #     field = Field([ally_01, ally_02], [enemy_01])
 
-#     assert not field.is_buttle_end()
+#     assert not field.is_battle_end()
 #     field.allies[0].current_hp = 0
-#     assert not field.is_buttle_end()
+#     assert not field.is_battle_end()
 #     field.allies[1].current_hp = 0
 
-#     assert field.is_buttle_end()
+#     assert field.is_battle_end()
 
 
 def test_equals(ally_01, enemy_01, field_01):

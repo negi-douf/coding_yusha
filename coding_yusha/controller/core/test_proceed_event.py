@@ -68,3 +68,14 @@ def test_proceed_guard_event(ally_01, enemy_01):
     result_field = proceed_event(event, field)
 
     assert result_field.enemies[0].is_guarding
+
+
+def test_proceed_nop_event(ally_01, enemy_01):
+    allies = [ally_01]
+    enemies = [enemy_01]
+    field = Field(allies, enemies)
+    event = Event('ally_01', 'ally_01', 'nop')
+
+    result_field = proceed_event(event, field)
+
+    assert result_field._equals(field)

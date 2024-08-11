@@ -3,7 +3,10 @@ from coding_yusha.controller.core.unit import Unit
 
 class Enemy01(Unit):
     def run(self):
-        pass
+        self.nop()
+
+    def nop(self):
+        print(f'{self.name}はじっとしている')
 
 
 def main():

@@ -65,6 +65,15 @@ def test_guard(ally_01):
     assert result.move == expected_event.move
 
 
+def test_nop(ally_01):
+    result = ally_01.nop()
+    expected_event = Event("ally_01", "ally_01", "nop")
+
+    assert result.sender == expected_event.sender
+    assert result.target == expected_event.target
+    assert result.move == expected_event.move
+
+
 def test_equals(ally_01):
     other = Unit()
     other.name = "ally_01"

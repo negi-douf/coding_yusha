@@ -2,6 +2,7 @@ from random import shuffle
 
 from coding_yusha.controller.core import generate_unit, parse_assets
 from coding_yusha.controller.core.field import Field
+from coding_yusha.controller.core.proceed_event import proceed_event
 from coding_yusha.controller.core.unit import Unit
 
 
@@ -11,7 +12,9 @@ class GameMaster():
     ally_file_map: dict
     enemy_file_map: dict
     turn_num: int = 0
-    is_buttle_end: bool = False
+    won = False
+    lost = False
+    withdraw = False
 
     def __init__(self, stage: str, *ally_py_files: str):
         self.stage_info = parse_assets.load_stage_info(stage)
@@ -24,7 +27,7 @@ class GameMaster():
 
     def start(self):
         self.print_stage_info()
-        while not self.is_buttle_end:
+        while not self.is_battle_end():
             self.wait_for_next_turn()
         self.print_result()
 
@@ -35,7 +38,16 @@ class GameMaster():
         print(f"味方: {[ally.name for ally in self.field.allies]}")
         print()
 
-    def decide_action_order(self) -> [Unit]:
+    def is_battle_end(self) -> bool:
+        return self.withdraw or self.won or self.lost
+
+    def update_battle_status(self):
+        if all([ally.is_dead() for ally in self.field.allies]):
+            self.lost = True
+        elif all([enemy.is_dead() for enemy in self.field.enemies]):
+            self.won = True
+
+    def decide_action_order(self) -> list[Unit]:
         units = self.field.allies + self.field.enemies
         # 同じ素早さのユニットはランダムに並べたいため、都度シャッフルする
         shuffle(units)
@@ -44,22 +56,38 @@ class GameMaster():
 
     def wait_for_next_turn(self):
         self.reset_units()
-        valid_commands = ["i", "w"]
-        # buttle, info, withdraw, help
+        valid_commands = ["b", "i", "w"]
+        # battle, info, withdraw, help
         command = input("> ")
         while command not in valid_commands:
             print(f"有効なコマンドは {valid_commands} です")
             command = input("> ")
-        if command == "i":
+        if command == "b":
+            self.proceed_battle()
+        elif command == "i":
             self.print_info()
-        if command == "w":
-            self.is_buttle_end = True
+        elif command == "w":
+            self.withdraw = True
 
     def reset_units(self):
         for ally in self.field.allies:
             ally.reset_status()
         for enemy in self.field.enemies:
             enemy.reset_status()
+
+    def proceed_battle(self):
+        print(f"ターン: {self.turn_num}")
+        units_ordered = self.decide_action_order()
+        events = []
+        for unit in units_ordered:
+            if not unit.is_dead():
+                event = unit.run()
+                events.append(event)
+        for event in events:
+            proceed_event(event, self.field)
+        print()
+        self.update_battle_status()
+        self.turn_num += 1
 
     def print_info(self):
         print(f"ステージ: {self.stage_info['stage']}")
@@ -75,9 +103,9 @@ class GameMaster():
         print()
 
     def print_result(self):
-        if all([ally.is_dead() for ally in self.field.allies]):
+        if self.lost:
             print("敗北した...")
-        elif all([enemy.is_dead() for enemy in self.field.enemies]):
+        elif self.won:
             print("勝利した！")
         else:
             print("撤退した")
