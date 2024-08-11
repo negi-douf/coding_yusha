@@ -1,0 +1,7 @@
+stage: "an_ally_dead"
+dir: "coding_yusha/assets/test/an_ally_is_dead"
+allies:
+  - ally_01.yml
+  - ally_dead.yml
+enemies:
+  - enemy_01.yml
