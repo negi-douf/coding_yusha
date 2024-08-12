@@ -1,6 +1,5 @@
 import pytest
 
-# from coding_yusha.controller.core.field import Field
 from coding_yusha.controller.core.unit import Unit
 from coding_yusha.controller.game_master import GameMaster
 
@@ -40,12 +39,10 @@ def test_init(game_master):
             "py": "coding_yusha/assets/test/enemy_01.py",
         },
     }
-    # expected_field = Field([expected_ally_01, expected_ally_02], [expected_enemy_01])
 
     assert game_master.stage_info == expected_stage_info
     assert game_master.ally_file_map == expected_ally_file_map
     assert game_master.enemy_file_map == expected_enemy_file_map
-    # assert game_master._equals(expected_field)
 
 
 def test_print_stage_info(game_master, capsys):
