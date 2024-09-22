@@ -17,7 +17,6 @@ def proceed_event(event: Event, sender: Unit, target: Unit) -> tuple[Unit, Unit]
     if event.move == "attack":
         return _proceed_attack(sender, target)
     # elif event.move == "special_move":
-    #     return _proceed_special_move(event, field)
     elif event.move == "guard":
         return _proceed_guard(sender), target
     elif event.move == "nop":
