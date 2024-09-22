@@ -1,46 +1,44 @@
 from coding_yusha.controller.core.event import Event
-from coding_yusha.controller.core.field import Field
 from coding_yusha.controller.core.unit import Unit
 
 
-def proceed_event(event: Event, field: Field) -> Field:
+def proceed_event(event: Event, sender: Unit, target: Unit) -> tuple[Unit, Unit]:
     """
     取得したイベントを元にフィールドを処理する
 
     Args:
         event (Event): イベント
-        field (Field): フィールド
+        sender (Unit): イベントを発生させたユニット
+        target (Unit): イベントの対象ユニット
 
     Returns:
-        Field: 処理後のフィールド
+        tuple[Unit, Unit]: 処理後のユニット
     """
     if event.move == "attack":
-        return _proceed_attack(event, field)
+        return _proceed_attack(sender, target)
     # elif event.move == "special_move":
     #     return _proceed_special_move(event, field)
     elif event.move == "guard":
-        return _proceed_guard(event, field)
+        return _proceed_guard(sender), target
     elif event.move == "nop":
-        return _proceed_nop(event, field)
+        return _proceed_nop(sender), target
     else:
         raise Exception("不正なイベントです。処理可能event.moveは\"attack\" \"special_move\" \"guard\"です。")
 
 
-def _proceed_attack(event: Event, field: Field) -> Field:
+def _proceed_attack(sender: Unit, target: Unit) -> tuple[Unit, Unit]:
     """
     通常攻撃イベントを処理する
 
     Args:
-        event (Event): 通常攻撃イベント
-        field (Field): フィールド
+        sender (Unit): 攻撃側ユニット
+        target (Unit): 被攻撃側ユニット
 
     Returns:
-        Field: 処理後のフィールド
+        tuple[Unit, Unit]: 処理後のユニット
     """
-    sender = _get_unit(event.sender, field)
-    target = _get_unit(event.target, field)
     if sender.is_dead():
-        return field
+        return sender, target
     print(f"{sender.name} の攻撃！")
     damage = _calculate_damage(sender, target)
     target.current_hp -= damage
@@ -48,61 +46,36 @@ def _proceed_attack(event: Event, field: Field) -> Field:
     if target.current_hp <= 0:
         target.current_hp = 0
         print(f"{target.name} は倒れた")
-    return field
+    return sender, target
 
 
-def _proceed_guard(event: Event, field: Field) -> Field:
+def _proceed_guard(sender: Unit) -> Unit:
     """
     防御イベントを処理する
 
     Args:
-        event (Event): 防御イベント
-        field (Field): フィールド
+        sender (Unit): 対象ユニット
 
     Returns:
-        Field: 処理後のフィールド
+        tuple[Unit, Unit]: 処理後のユニット
     """
-    target = _get_unit(event.target, field)
-    target.is_guarding = True
-    return field
+    sender.is_guarding = True
+    return sender
 
 
-def _proceed_nop(event: Event, field: Field) -> Field:
+def _proceed_nop(sender: Unit) -> Unit:
     """
     何もしないイベントを処理する
 
     Args:
-        event (Event): 何もしないイベント
-        field (Field): フィールド
+        sender (Unit): 対象ユニット
 
     Returns:
-        Field: 処理後のフィールド
+        Unit: 処理後のユニット
     """
-    sender = _get_unit(event.sender, field)
     if not sender.is_dead():
         print(f"{sender.name} はじっとしている")
-    return field
-
-
-def _get_unit(name: str, field: Field) -> Unit:
-    """
-    フィールドに存在するUnitから、指定した名前と一致するUnitインスタンスを取得する
-
-    Args:
-        name (str): ユニット名
-        field (Field): フィールド
-
-    Returns:
-        Unit: Unitインスタンス
-    """
-    for ally in field.allies:
-        if ally.name == name:
-            return ally
-    for enemy in field.enemies:
-        if enemy.name == name:
-            return enemy
-    # TODO: 専用の例外クラスを作る
-    raise Exception(f"{name}と一致するUnitが見つかりません")
+    return sender
 
 
 def _calculate_damage(sender: Unit, target: Unit) -> int:

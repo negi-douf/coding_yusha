@@ -1,6 +1,5 @@
 import pytest
 
-from coding_yusha.controller.core.field import Field
 from coding_yusha.controller.core.unit import Unit
 from coding_yusha.controller.game_master import GameMaster
 
@@ -40,12 +39,10 @@ def test_init(game_master):
             "py": "coding_yusha/assets/test/enemy_01.py",
         },
     }
-    expected_field = Field([expected_ally_01, expected_ally_02], [expected_enemy_01])
 
     assert game_master.stage_info == expected_stage_info
     assert game_master.ally_file_map == expected_ally_file_map
     assert game_master.enemy_file_map == expected_enemy_file_map
-    assert game_master.field._equals(expected_field)
 
 
 def test_print_stage_info(game_master, capsys):
@@ -210,25 +207,43 @@ def test_wait_for_next_turn_invalid_command(mocker, capsys):
 def test_reset_units():
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
-    _game_master.field.allies[0].is_guarding = True
-    _game_master.field.enemies[0].is_guarding = True
+    _game_master.allies[0].is_guarding = True
+    _game_master.enemies[0].is_guarding = True
 
     _game_master.reset_units()
 
-    assert not _game_master.field.allies[0].is_guarding
-    assert not _game_master.field.enemies[0].is_guarding
+    assert not _game_master.allies[0].is_guarding
+    assert not _game_master.enemies[0].is_guarding
+
+
+def test_resolve_unit_by_name(game_master):
+    unit = game_master.resolve_unit_by_name("ally_01")
+
+    assert unit.name == "ally_01"
+
+
+def test_resolve_unit_by_name_enemy(game_master):
+    unit = game_master.resolve_unit_by_name("enemy_01")
+
+    assert unit.name == "enemy_01"
+
+
+def test_resolve_unit_by_name_not_found(game_master):
+    unit = game_master.resolve_unit_by_name("not_found")
+
+    assert unit is None
 
 
 def test_proceed_battle(mocker):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
     mocker.patch("coding_yusha.controller.game_master.GameMaster.decide_action_order",
-                 return_value=_game_master.field.allies + _game_master.field.enemies)
+                 return_value=_game_master.allies + _game_master.enemies)
     proceed_event_mock = mocker.patch("coding_yusha.controller.game_master.proceed_event")
 
     _game_master.proceed_battle()
 
-    assert proceed_event_mock.call_count == 3
+    assert proceed_event_mock.call_count == 1
     assert _game_master.turn_num == 1
 
 
@@ -237,13 +252,13 @@ def test_proceed_battle_an_ally_is_dead(mocker):
                               "coding_yusha/assets/test/an_ally_is_dead/ally_01.py",
                               "coding_yusha/assets/test/an_ally_is_dead/ally_dead.py")
     mocker.patch("coding_yusha.controller.game_master.GameMaster.decide_action_order",
-                 return_value=_game_master.field.allies + _game_master.field.enemies)
+                 return_value=_game_master.allies + _game_master.enemies)
     proceed_event_mock = mocker.patch("coding_yusha.controller.game_master.proceed_event")
 
     _game_master.proceed_battle()
 
-    assert proceed_event_mock.call_count == 2
-    assert len(_game_master.field.allies) + len(_game_master.field.enemies) == 3
+    assert proceed_event_mock.call_count == 1
+    assert len(_game_master.allies) + len(_game_master.enemies) == 3
     assert _game_master.turn_num == 1
 
 
@@ -251,13 +266,13 @@ def test_proceed_battle_an_enemy_is_dead(mocker):
     _game_master = GameMaster("test/an_enemy_is_dead",
                               "coding_yusha/assets/test/an_enemy_is_dead/ally_01.py")
     mocker.patch("coding_yusha.controller.game_master.GameMaster.decide_action_order",
-                 return_value=_game_master.field.allies + _game_master.field.enemies)
+                 return_value=_game_master.allies + _game_master.enemies)
     proceed_event_mock = mocker.patch("coding_yusha.controller.game_master.proceed_event")
 
     _game_master.proceed_battle()
 
-    assert proceed_event_mock.call_count == 2
-    assert len(_game_master.field.allies) + len(_game_master.field.enemies) == 3
+    assert proceed_event_mock.call_count == 1
+    assert len(_game_master.allies) + len(_game_master.enemies) == 3
     assert _game_master.turn_num == 1
 
 
@@ -281,7 +296,7 @@ def test_print_result_withdraw(mocker, capsys):
 def test_print_result_win(capsys):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
-    _game_master.field.enemies[0].current_hp = 0
+    _game_master.enemies[0].current_hp = 0
     _game_master.won = True
     # 事前に入力をクリアしておきたい
     capsys.readouterr()
@@ -300,8 +315,8 @@ def test_print_result_win(capsys):
 def test_print_result_lose(capsys):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
-    _game_master.field.allies[0].current_hp = 0
-    _game_master.field.allies[1].current_hp = 0
+    _game_master.allies[0].current_hp = 0
+    _game_master.allies[1].current_hp = 0
     _game_master.lost = True
     # 事前に入力をクリアしておきたい
     capsys.readouterr()

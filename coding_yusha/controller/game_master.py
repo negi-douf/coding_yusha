@@ -1,4 +1,5 @@
 from random import shuffle
+from typing import Optional
 
 from coding_yusha.controller.core import generate_unit, parse_assets
 from coding_yusha.controller.core.field import Field
@@ -11,6 +12,8 @@ class GameMaster():
     stage_info: dict
     ally_file_map: dict
     enemy_file_map: dict
+    allies: list[Unit]
+    enemies: list[Unit]
     turn_num: int = 0
     won = False
     lost = False
@@ -21,9 +24,10 @@ class GameMaster():
         ally_py_list = list(ally_py_files)
         self.ally_file_map = parse_assets.map_ally_files(self.stage_info, ally_py_list)
         self.enemy_file_map = parse_assets.map_enemy_files(self.stage_info)
-        allies = generate_unit.generate_allies(self.ally_file_map)
-        enemies = generate_unit.generate_enemies(self.enemy_file_map)
-        self.field = Field(allies, enemies)
+        self.allies = generate_unit.generate_allies(self.ally_file_map)
+        self.enemies = generate_unit.generate_enemies(self.enemy_file_map)
+        # self.field = Field(allies, enemies)
+        self.field = Field(self.allies, self.enemies)
 
     def start(self):
         self.print_stage_info()
@@ -34,21 +38,21 @@ class GameMaster():
     def print_stage_info(self):
         print("【戦闘開始】")
         print(f"ステージ: {self.stage_info['stage']}")
-        print(f"敵: {[enemy.name for enemy in self.field.enemies]}")
-        print(f"味方: {[ally.name for ally in self.field.allies]}")
+        print(f"敵: {[enemy.name for enemy in self.enemies]}")
+        print(f"味方: {[ally.name for ally in self.allies]}")
         print()
 
     def is_battle_end(self) -> bool:
         return self.withdraw or self.won or self.lost
 
     def update_battle_status(self):
-        if all([ally.is_dead() for ally in self.field.allies]):
+        if all([ally.is_dead() for ally in self.allies]):
             self.lost = True
-        elif all([enemy.is_dead() for enemy in self.field.enemies]):
+        elif all([enemy.is_dead() for enemy in self.enemies]):
             self.won = True
 
     def decide_action_order(self) -> list[Unit]:
-        units = self.field.allies + self.field.enemies
+        units = self.allies + self.enemies
         # 同じ素早さのユニットはランダムに並べたいため、都度シャッフルする
         shuffle(units)
         units_ordered = sorted(units, key=lambda unit: unit.agi, reverse=True)
@@ -70,9 +74,9 @@ class GameMaster():
             self.withdraw = True
 
     def reset_units(self):
-        for ally in self.field.allies:
+        for ally in self.allies:
             ally.reset_status()
-        for enemy in self.field.enemies:
+        for enemy in self.enemies:
             enemy.reset_status()
 
     def proceed_battle(self):
@@ -84,20 +88,33 @@ class GameMaster():
                 event = unit.run()
                 events.append(event)
         for event in events:
-            proceed_event(event, self.field)
+            if event is None:
+                continue
+            sender = self.resolve_unit_by_name(event.sender)
+            target = self.resolve_unit_by_name(event.target)
+            proceed_event(event, sender, target)
         print()
         self.update_battle_status()
         self.turn_num += 1
 
+    def resolve_unit_by_name(self, name: str) -> Optional[Unit]:
+        for ally in self.allies:
+            if ally.name == name:
+                return ally
+        for enemy in self.enemies:
+            if enemy.name == name:
+                return enemy
+        return None
+
     def print_info(self):
         print(f"ステージ: {self.stage_info['stage']}")
         print(f"ターン: {self.turn_num}")
-        for enemy in self.field.enemies:
+        for enemy in self.enemies:
             if enemy.is_dead():
                 print(f"{enemy.name}: HP 0/{enemy.max_hp}, MP ?/?")
             else:
                 print(f"{enemy.name}: HP ?/?, MP ?/?")
-        for ally in self.field.allies:
+        for ally in self.allies:
             print(f"{ally.name}: HP {ally.current_hp}/{ally.max_hp}, "
                   f"MP {ally.current_mp}/{ally.max_mp}")
         print()
@@ -114,7 +131,7 @@ class GameMaster():
     def get_allies_status(self):
         ally_replicas = []
         # NOTE: Unitに clone() みたいなメソッドを作ったほうがいいかも
-        for ally in self.field.allies:
+        for ally in self.allies:
             replica = Unit()
             replica.name = ally.name
             replica.max_hp = ally.max_hp
@@ -137,7 +154,7 @@ class GameMaster():
             all_ (bool, optional): 死んでいる敵も含めるかどうか. Defaults to False.
         """
         enemy_replicas = []
-        for enemy in self.field.enemies:
+        for enemy in self.enemies:
             if enemy.is_dead() and not all_:
                 continue
             replica = Unit()
