@@ -1,4 +1,5 @@
 from random import shuffle
+from typing import Optional
 
 from coding_yusha.controller.core import generate_unit, parse_assets
 from coding_yusha.controller.core.field import Field
@@ -87,10 +88,23 @@ class GameMaster():
                 event = unit.run()
                 events.append(event)
         for event in events:
-            proceed_event(event, self.field)
+            if event is None:
+                continue
+            sender = self.resolve_unit_by_name(event.sender)
+            target = self.resolve_unit_by_name(event.target)
+            proceed_event(event, sender, target)
         print()
         self.update_battle_status()
         self.turn_num += 1
+
+    def resolve_unit_by_name(self, name: str) -> Optional[Unit]:
+        for ally in self.allies:
+            if ally.name == name:
+                return ally
+        for enemy in self.enemies:
+            if enemy.name == name:
+                return enemy
+        return None
 
     def print_info(self):
         print(f"ステージ: {self.stage_info['stage']}")
