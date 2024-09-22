@@ -2,11 +2,13 @@ from random import shuffle
 from typing import Optional
 
 from coding_yusha.controller.core import generate_unit, parse_assets
+from coding_yusha.controller.core.field import Field
 from coding_yusha.controller.core.proceed_event import proceed_event
 from coding_yusha.controller.core.unit import Unit
 
 
 class GameMaster():
+    field: Field
     stage_info: dict
     ally_file_map: dict
     enemy_file_map: dict
@@ -24,6 +26,8 @@ class GameMaster():
         self.enemy_file_map = parse_assets.map_enemy_files(self.stage_info)
         self.allies = generate_unit.generate_allies(self.ally_file_map)
         self.enemies = generate_unit.generate_enemies(self.enemy_file_map)
+        # self.field = Field(allies, enemies)
+        self.field = Field(self.allies, self.enemies)
 
     def start(self):
         self.print_stage_info()
