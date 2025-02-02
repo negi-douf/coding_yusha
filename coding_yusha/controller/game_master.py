@@ -60,7 +60,7 @@ class GameMaster():
 
     def wait_for_next_turn(self):
         self.reset_units()
-        valid_commands = ["b", "i", "w"]
+        valid_commands = ["b", "i", "q"]
         # battle, info, withdraw, help
         command = input("> ")
         while command not in valid_commands:
@@ -70,7 +70,7 @@ class GameMaster():
             self.proceed_battle()
         elif command == "i":
             self.print_info()
-        elif command == "w":
+        elif command == "q":
             self.withdraw = True
 
     def reset_units(self):
