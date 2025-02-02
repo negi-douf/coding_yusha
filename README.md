@@ -4,7 +4,7 @@
 
 これは、勇者パーティの行動をプログラミングして敵を倒していくRPGです。
 
-2023年時点、多くのRPGの戦闘では、プレイヤーが毎ターン味方の行動を細かく選択します。  
+多くのRPGの戦闘では、プレイヤーが毎ターン味方の行動を細かく選択します。  
 しかし、このゲームではそれができません！⚠️
 
 ではどうするのでしょうか？🤔
@@ -25,10 +25,22 @@
 このゲームはPythonで実装されており、CLI (Command Line Interface) で動作します。  
 つまり、**プレイヤーによるプログラミングはPythonでおこないます。**
 
+## Usage
+
+```sh
+poetry run python coding_yusha.py <stage> [ally_py_files]
+```
+
+For example,
+
+```sh
+poetry run python coding_yusha.py hello_world workshop/hello_world/warrior.py
+```
+
 ## Philosophy
 
-このプロジェクトは、制作者が「何かゲーム型のプログラミング学習教材を作りたいな〜」とぼんやり考えていて思いついたものです。  
-そのため、2023年12月時点で、以下のような思想があります。
+このプロジェクトは、制作者が「何かゲーム型のプログラミング学習教材を作りたい」と考えていて思いついたものです。  
+そのため、以下のような思想があります。
 
 - プログラミングの初級者から上級者まで楽しめるものにする
 - チームで取り組めるものにする
@@ -37,15 +49,15 @@
 - シナリオを重視しない
 - グラフィックを重視しない
 
-## Usage
+## For Contributors
 
-### 単体テスト
+### ユニットテスト
 
 ```sh
 $ poetry run pytest
 ```
 
-### フォーマット
+### コードのフォーマット
 
 ```sh
 $ poetry run autopep8 --in-place --aggressive --recursive coding_yusha/
