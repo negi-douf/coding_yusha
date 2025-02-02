@@ -161,7 +161,7 @@ nop は倒れた
 def test_wait_for_next_turn_withdraw(mocker):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
-    mocker.patch("builtins.input", side_effect=["w"])
+    mocker.patch("builtins.input", side_effect=["q"])
 
     _game_master.wait_for_next_turn()
 
@@ -193,13 +193,13 @@ ally_02: HP 10/10, MP 10/10
 def test_wait_for_next_turn_invalid_command(mocker, capsys):
     _game_master = GameMaster("test", "coding_yusha/assets/test/ally_01.py",
                               "coding_yusha/assets/test/ally_02.py")
-    mocker.patch("builtins.input", side_effect=["invalid_command", "w"])
+    mocker.patch("builtins.input", side_effect=["invalid_command", "q"])
     # 事前に入力をクリアしておきたい
     capsys.readouterr()
 
     _game_master.wait_for_next_turn()
     captured = capsys.readouterr()
-    expected = "有効なコマンドは ['b', 'i', 'w'] です\n"
+    expected = "有効なコマンドは ['b', 'i', 'q'] です\n"
 
     assert captured.out == expected
 
