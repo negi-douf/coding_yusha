@@ -87,11 +87,12 @@ touch .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
-作成した実行ファイルに下記の内容を書き込んで保存。
-この設定によって`poetry run pytest && poetry run flake8`がコミット時に実行され、コマンドが成功したらコミット出来るようになる。
+作成した実行ファイルに下記の内容を書き込む。
 
 ```sh
 #!/bin/sh
 
 poetry run flake8 && poetry run isort --check-only . && poetry run pytest
 ```
+
+この設定によって `poetry run pytest && poetry run flake8` がコミット時に実行され、コマンドが成功したらコミットされるようになる。
