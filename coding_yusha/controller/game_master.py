@@ -65,6 +65,7 @@ class GameMaster():
         command = input("> ")
         while command not in valid_commands:
             print(f"有効なコマンドは {valid_commands} です")
+            print()
             command = input("> ")
         if command == "b":
             self.proceed_battle()
