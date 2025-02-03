@@ -199,7 +199,7 @@ def test_wait_for_next_turn_invalid_command(mocker, capsys):
 
     _game_master.wait_for_next_turn()
     captured = capsys.readouterr()
-    expected = "有効なコマンドは ['b', 'i', 'q'] です\n"
+    expected = "有効なコマンドは ['b', 'i', 'q'] です\n\n"
 
     assert captured.out == expected
 
