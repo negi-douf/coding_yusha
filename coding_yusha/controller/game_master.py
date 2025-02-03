@@ -61,7 +61,7 @@ class GameMaster():
     def wait_for_next_turn(self):
         self.reset_units()
         valid_commands = ["b", "i", "q"]
-        # battle, info, withdraw, help
+        # battle, info, quit, help
         command = input("> ")
         while command not in valid_commands:
             print(f"有効なコマンドは {valid_commands} です")
