@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "coding-yusha"
+name = "coding_yusha"
 version = "0.1.0"
 description = ""
 authors = ["Koya Hirata <atarih.ayuok@gmail.com>"]

@@ -28,13 +28,13 @@
 ## Usage
 
 ```sh
-poetry run python coding_yusha.py <stage> [ally_py_files]
+poetry run python game.py <stage> [ally_py_files]
 ```
 
 For example,
 
 ```sh
-poetry run python coding_yusha.py hello_world workshop/hello_world/warrior.py
+poetry run python game.py hello_world workshop/hello_world/warrior.py
 ```
 
 ## Philosophy
