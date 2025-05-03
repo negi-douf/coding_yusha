@@ -33,6 +33,12 @@ def commentator():
     return cmtr
 
 
+def test_get_allies(commentator):
+    allies = commentator.allies
+    assert len(allies) == 2
+    assert allies[0].name == "ally_01"
+    assert allies[1].name == "ally_02"
+
 def test_get_enemies(commentator):
     enemies = commentator.get_enemies()
     assert enemies == ["enemy_01"]
