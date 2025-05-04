@@ -28,13 +28,13 @@ def commentator():
     )
     allies = [ally_01, ally_02]
     enemies = ["enemy_01"]
-    cmtr.update_allies(allies)
-    cmtr.update_enemies(enemies)
+    cmtr.update_all_allies(allies)
+    cmtr.update_all_enemies(enemies)
     return cmtr
 
 
 def test_get_all_allies(commentator):
-    allies = commentator.allies
+    allies = commentator.get_all_allies()
     assert len(allies) == 2
     assert allies[0].name == "ally_01"
     assert allies[1].name == "ally_02"
@@ -46,7 +46,7 @@ def test_get_all_enemies(commentator):
     assert enemies[0] == "enemy_01"
 
 
-def test_update_allies(commentator):
+def test_update_all_allies(commentator):
     new_allies = [
         UnitRecord(
             name="ally_03",
@@ -56,15 +56,15 @@ def test_update_allies(commentator):
             current_mp=10
         )
     ]
-    commentator.update_allies(new_allies)
+    commentator.update_all_allies(new_allies)
     allies = commentator.get_all_allies()
     assert len(allies) == 1
     assert allies[0].name == "ally_03"
 
 
-def test_update_enemies(commentator):
+def test_update_all_enemies(commentator):
     new_enemies = ["enemy_02", "enemy_03"]
-    commentator.update_enemies(new_enemies)
+    commentator.update_all_enemies(new_enemies)
     enemies = commentator.get_all_enemies()
     assert len(enemies) == 2
     assert enemies[0] == "enemy_02"
@@ -86,7 +86,7 @@ def test_get_alive_allies(commentator):
         max_mp=10,
         current_mp=10
     )
-    commentator.update_allies([ally_alive, ally_dead])
+    commentator.update_all_allies([ally_alive, ally_dead])
     alive_allies = commentator.get_alive_allies()
     assert len(alive_allies) == 1
     assert alive_allies[0].name == "ally_alive"
