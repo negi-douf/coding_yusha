@@ -29,6 +29,7 @@ def commentator():
     allies = [ally_01, ally_02]
     enemies = ["enemy_01"]
     cmtr.update_all_allies(allies)
+    cmtr.update_alive_allies(allies)
     cmtr.update_all_enemies(enemies)
     return cmtr
 
