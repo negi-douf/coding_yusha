@@ -88,6 +88,7 @@ def test_get_alive_allies(commentator):
         current_mp=10
     )
     commentator.update_all_allies([ally_alive, ally_dead])
+    commentator.update_alive_allies([ally_alive])
     alive_allies = commentator.get_alive_allies()
     assert len(alive_allies) == 1
     assert alive_allies[0].name == "ally_alive"
