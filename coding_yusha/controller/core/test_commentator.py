@@ -33,15 +33,15 @@ def commentator():
     return cmtr
 
 
-def test_get_allies(commentator):
+def test_get_all_allies(commentator):
     allies = commentator.allies
     assert len(allies) == 2
     assert allies[0].name == "ally_01"
     assert allies[1].name == "ally_02"
 
 
-def test_get_enemies(commentator):
-    enemies = commentator.get_enemies()
+def test_get_all_enemies(commentator):
+    enemies = commentator.get_all_enemies()
     assert len(enemies) == 1
     assert enemies[0] == "enemy_01"
 
@@ -57,7 +57,7 @@ def test_update_allies(commentator):
         )
     ]
     commentator.update_allies(new_allies)
-    allies = commentator.get_allies()
+    allies = commentator.get_all_allies()
     assert len(allies) == 1
     assert allies[0].name == "ally_03"
 
@@ -65,7 +65,7 @@ def test_update_allies(commentator):
 def test_update_enemies(commentator):
     new_enemies = ["enemy_02", "enemy_03"]
     commentator.update_enemies(new_enemies)
-    enemies = commentator.get_enemies()
+    enemies = commentator.get_all_enemies()
     assert len(enemies) == 2
     assert enemies[0] == "enemy_02"
     assert enemies[1] == "enemy_03"

@@ -10,10 +10,10 @@ class Commentator():
     def update_enemies(self, enemies):
         self.enemies = enemies
 
-    def get_allies(self) -> list[UnitRecord]:
+    def get_all_allies(self) -> list[UnitRecord]:
         return self.allies
 
-    def get_enemies(self) -> list[str]:
+    def get_all_enemies(self) -> list[str]:
         return self.enemies
 
     def get_alive_allies(self) -> list[UnitRecord]:
