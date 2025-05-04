@@ -92,3 +92,11 @@ def test_get_alive_allies(commentator):
     alive_allies = commentator.get_alive_allies()
     assert len(alive_allies) == 1
     assert alive_allies[0].name == "ally_alive"
+
+
+def test_get_alive_enemies(commentator):
+    commentator.update_all_enemies(["enemy_01", "enemy_02"])
+    commentator.update_alive_enemies(["enemy_01"])
+    alive_enemies = commentator.get_alive_enemies()
+    assert len(alive_enemies) == 1
+    assert alive_enemies[0] == "enemy_01"
