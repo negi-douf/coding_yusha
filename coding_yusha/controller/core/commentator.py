@@ -15,3 +15,6 @@ class Commentator():
 
     def get_enemies(self) -> list[str]:
         return self.enemies
+
+    def get_alive_allies(self) -> list[UnitRecord]:
+        return [ally for ally in self.allies if ally.current_hp > 0]

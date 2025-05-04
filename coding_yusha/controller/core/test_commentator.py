@@ -69,3 +69,24 @@ def test_update_enemies(commentator):
     assert len(enemies) == 2
     assert enemies[0] == "enemy_02"
     assert enemies[1] == "enemy_03"
+
+
+def test_get_alive_allies(commentator):
+    ally_alive = UnitRecord(
+        name="ally_alive",
+        max_hp=10,
+        current_hp=10,
+        max_mp=10,
+        current_mp=10
+    )
+    ally_dead = UnitRecord(
+        name="ally_dead",
+        max_hp=10,
+        current_hp=0,
+        max_mp=10,
+        current_mp=10
+    )
+    commentator.update_allies([ally_alive, ally_dead])
+    alive_allies = commentator.get_alive_allies()
+    assert len(alive_allies) == 1
+    assert alive_allies[0].name == "ally_alive"
