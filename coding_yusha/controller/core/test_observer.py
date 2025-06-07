@@ -1,5 +1,6 @@
 import pytest
 
+from coding_yusha.controller.core.event import Event
 from coding_yusha.controller.core.observer import Observer
 from coding_yusha.controller.core.unit_record import UnitRecord
 
@@ -101,3 +102,16 @@ def test_get_alive_enemies(observer):
     alive_enemies = observer.get_alive_enemies()
     assert len(alive_enemies) == 1
     assert alive_enemies[0] == "enemy_01"
+
+def test_get_past_events_empty(observer):
+    empty_events = observer.get_past_events()
+    assert len(empty_events) == 0
+
+def test_add_past_event(observer):
+    event = Event(sender="ally_01", target="enemy_01", move="attack")
+    observer.add_past_event(event)
+    past_events = observer.get_past_events()
+    assert len(past_events) == 1
+    assert past_events[0].sender == "ally_01"
+    assert past_events[0].target == "enemy_01"
+    assert past_events[0].move == "attack"
