@@ -13,7 +13,6 @@ from coding_yusha.controller.core.unit_record import UnitRecord
 
 @pytest.fixture
 def observer():
-    obsr = Observer()
     ally_01 = UnitRecord(
         name="ally_01",
         max_hp=10,
@@ -30,26 +29,24 @@ def observer():
     )
     allies = [ally_01, ally_02]
     enemies = ["enemy_01"]
-    obsr.update_all_allies(allies)
-    obsr.update_alive_allies(allies)
-    obsr.update_all_enemies(enemies)
+    obsr = Observer(allies, enemies, enemies)
     return obsr
 
 
-def test_get_all_allies(observer):
-    allies = observer.get_all_allies()
+def test_get_allies(observer):
+    allies = observer.get_allies()
     assert len(allies) == 2
     assert allies[0].name == "ally_01"
     assert allies[1].name == "ally_02"
 
 
-def test_get_all_enemies(observer):
-    enemies = observer.get_all_enemies()
+def test_get_enemies(observer):
+    enemies = observer.get_enemies()
     assert len(enemies) == 1
     assert enemies[0] == "enemy_01"
 
 
-def test_update_all_allies(observer):
+def test_update_allies(observer):
     new_allies = [
         UnitRecord(
             name="ally_03",
@@ -59,16 +56,16 @@ def test_update_all_allies(observer):
             current_mp=10
         )
     ]
-    observer.update_all_allies(new_allies)
-    allies = observer.get_all_allies()
+    observer.update_allies(new_allies)
+    allies = observer.get_allies()
     assert len(allies) == 1
     assert allies[0].name == "ally_03"
 
 
-def test_update_all_enemies(observer):
+def test_update_enemies(observer):
     new_enemies = ["enemy_02", "enemy_03"]
-    observer.update_all_enemies(new_enemies)
-    enemies = observer.get_all_enemies()
+    observer.update_enemies(new_enemies)
+    enemies = observer.get_enemies()
     assert len(enemies) == 2
     assert enemies[0] == "enemy_02"
     assert enemies[1] == "enemy_03"
@@ -89,16 +86,14 @@ def test_get_alive_allies(observer):
         max_mp=10,
         current_mp=10
     )
-    observer.update_all_allies([ally_alive, ally_dead])
-    observer.update_alive_allies([ally_alive])
+    observer.update_allies([ally_alive, ally_dead])
     alive_allies = observer.get_alive_allies()
     assert len(alive_allies) == 1
     assert alive_allies[0].name == "ally_alive"
 
 
 def test_get_alive_enemies(observer):
-    observer.update_all_enemies(["enemy_01", "enemy_02"])
-    observer.update_alive_enemies(["enemy_01"])
+    observer.update_enemies(["enemy_01", "enemy_02"])
     alive_enemies = observer.get_alive_enemies()
     assert len(alive_enemies) == 1
     assert alive_enemies[0] == "enemy_01"
