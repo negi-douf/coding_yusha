@@ -103,9 +103,11 @@ def test_get_alive_enemies(observer):
     assert len(alive_enemies) == 1
     assert alive_enemies[0] == "enemy_01"
 
+
 def test_get_past_events_empty(observer):
     empty_events = observer.get_past_events()
     assert len(empty_events) == 0
+
 
 def test_add_past_event(observer):
     event = Event(sender="ally_01", target="enemy_01", move="attack")
