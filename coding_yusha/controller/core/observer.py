@@ -1,4 +1,4 @@
-from coding_yusha.controller.core.event import Event
+from coding_yusha.controller.core.event_record import EventRecord
 from coding_yusha.controller.core.unit_record import UnitRecord
 
 
@@ -6,7 +6,7 @@ class Observer():
     allies: list[UnitRecord]
     enemies: list[str]  # 敵の情報は名前のみ
     alive_enemies: list[str]
-    past_events: list[Event]
+    past_events: list[EventRecord]
 
     def __init__(self, allies: list[UnitRecord], enemies: list[str],
                  alive_enemies: list[str]):
@@ -27,7 +27,7 @@ class Observer():
     def get_alive_enemies(self) -> list[str]:
         return self.alive_enemies
 
-    def get_past_events(self) -> list[Event]:
+    def get_past_events(self) -> list[EventRecord]:
         return self.past_events
 
     def update_allies(self, allies):
@@ -39,5 +39,5 @@ class Observer():
     def update_alive_enemies(self, alive_enemies):
         self.alive_enemies = alive_enemies
 
-    def add_past_event(self, event: Event):
-        self.past_events.append(event)
+    def add_past_event_record(self, event_record: EventRecord):
+        self.past_events.append(event_record)

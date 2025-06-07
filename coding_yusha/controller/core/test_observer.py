@@ -1,6 +1,7 @@
 import pytest
 
 from coding_yusha.controller.core.event import Event
+from coding_yusha.controller.core.event_record import EventRecord
 from coding_yusha.controller.core.observer import Observer
 from coding_yusha.controller.core.unit_record import UnitRecord
 
@@ -106,9 +107,10 @@ def test_get_past_events_empty(observer):
 
 def test_add_past_event(observer):
     event = Event(sender="ally_01", target="enemy_01", move="attack")
-    observer.add_past_event(event)
+    event_record = EventRecord(turn_num=0, event=event)
+    observer.add_past_event_record(event_record)
     past_events = observer.get_past_events()
     assert len(past_events) == 1
-    assert past_events[0].sender == "ally_01"
-    assert past_events[0].target == "enemy_01"
-    assert past_events[0].move == "attack"
+    assert past_events[0].event.sender == "ally_01"
+    assert past_events[0].event.target == "enemy_01"
+    assert past_events[0].event.move == "attack"
