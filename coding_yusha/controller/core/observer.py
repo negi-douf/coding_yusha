@@ -1,9 +1,10 @@
 from coding_yusha.controller.core.unit_record import UnitRecord
 
-class Commentator():
+
+class Observer():
     all_allies: list[UnitRecord]
     alive_allies: list[UnitRecord]
-    all_enemies: list[str] # 敵の情報は名前のみ
+    all_enemies: list[str]  # 敵の情報は名前のみ
     alive_enemies: list[str]
 
     def get_all_allies(self) -> list[UnitRecord]:
